@@ -35,14 +35,12 @@ def saveNewPicture (picName,transX,transY,rotD) :
     picture = im.load()
 
     imNew = Image.new(mode = "RGB", size = (2048, 2048), color = (255, 255, 255))
-    pictureNew = im.load()
+    pictureNew = imNew.load()
 
     for x in range (2048) :
         for y in range (2048) :
             xn, yn = oldCoord(x,y)
-            value = picture[xn,yn]
-            value = picture[x,y]
+            value = picture[xn,yn]      # Get the RGBA Value of the a pixel of an image
+            pictureNew[x,y] = value        # Set the RGBA Value of the image (tuple)
 
-    value = picture[x,y]  # Get the RGBA Value of the a pixel of an image
-    picture[x,y] = value  # Set the RGBA Value of the image (tuple)
-    im.save('alive_parrot.png')  # Save the modified pixels as .png
+    imNew.save(picName)  # Save the modified pixels as .png

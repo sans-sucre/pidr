@@ -1,14 +1,11 @@
 import numpy as np
 
-R = np.array([[1, 0, 0],
-              [0, 1, 0],
-              [0, 0, 1]])
-
 
 def coordonnes_polaire(x: float, y: float) -> tuple[float, float]:
     """
     Cette fonction sert à trouver les coordonnées polaires à partir de coordonnées cartésiennes
     """
+
     assert (x != 0 or y != 0), "Attention, x et y ne peuvent pas être égaux à 0 en même temps"
     r = np.sqrt(x ** 2 + y ** 2)
 
@@ -29,42 +26,21 @@ def coordonnes_polaire(x: float, y: float) -> tuple[float, float]:
     return r, delta
 
 
-def calcul_azimute_hauteur(x: float, y: float) -> tuple[float, float]:
+def calcul_azimut_hauteur(x: float, y: float) -> tuple[float, float]:
     """
     Cette fonction sert à calculer l'azimute et la hauteur à partir de coordonnées cartésiennes du soleil données.
-    L'abscisse doit être le nord magnétique, le point origine doit être le centre d'image .
+    L'abscisse doit être le nord magnétique, le point origine doit être le centre d'image. Les paramètres x et y sont
+    en mm.
     """
 
     r, delta = coordonnes_polaire(x, y)
-    azimute = delta
-
-    hauteur = 90 - np.rad2deg(np.arctan(r))
-    return azimute, hauteur
-
-
-def change_dimension(x: float, y: float) -> tuple[float, float, float]:
-    """
-    Cette fonction sert à retrouver les coordonnées dans 3 dimensions X,Y,Z à partir des x, y dans deux dimensions.
-    """
-
-    r, delta = coordonnes_polaire(x, y)
-    theta = np.arctan(r)
-    phi = np.arctan(y / x)
-    M2 = np.array([[(np.cos(phi)) * np.sin(theta)],
-                   [np.sin(phi) * np.sin(theta)],
-                   [np.cos(theta)]])
-    R_inverse = np.linalg.inv(R)
-
-    M_resultat = np.multiply(R_inverse, M2)
-    print(M_resultat)
-    X = M_resultat[0]
-    Y = M_resultat[1]
-    Z = M_resultat[2]
-
-    return X, Y, Z
+    azimut = delta
+    print("rayon :", r)
+    f = 2.7
+    hauteur = 90 - np.rad2deg(r/f)
+    print("hauteur :", hauteur)
+    return azimut, hauteur
 
 
-a, h = calcul_azimute_hauteur(0, 0)
+a, h = calcul_azimut_hauteur(0.5, 0.5)
 print(a, h)
-# X,Y,Z=change_dimension(2000,1000)
-# print(X,Y,Z)

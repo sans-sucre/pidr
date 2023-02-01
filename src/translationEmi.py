@@ -7,3 +7,7 @@ def translation (x_ini,y_ini,x_translation,y_translation):
     y_translation=y_ini+y_translation
 
     return (x_translation,y_translation)
+
+
+
+print(translation(1,-1,0,1))

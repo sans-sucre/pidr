@@ -4,6 +4,7 @@ import math
 #Dans le cas pratique on devra donner l'axe par lequel on tourne 
 
 def rotation(x_ini,y_ini,angle,x_rotation,y_rotation):
+    angle=(angle*math.pi)/180
 
     x_ur=x_ini-x_rotation #vecteur translation base polaire
     y_ur=y_ini -y_rotation #vecteur translation base polaire
@@ -15,4 +16,12 @@ def rotation(x_ini,y_ini,angle,x_rotation,y_rotation):
     x_rotation= x_ini+x_teta #calcul du point après modification 
     y_rotation=y_ini+y_teta
 
+    print(angle,2*math.pi)
+
+
     return (x_rotation,y_rotation)
+
+
+
+
+rotation(0,0,360,0,1)

@@ -40,7 +40,8 @@ def saveNewPicture (picName,transX,transY,rotD) :
     for x in range (2048) :
         for y in range (2048) :
             xn, yn = oldCoord(x,y)
-            value = picture[xn,yn]      # Get the RGBA Value of the a pixel of an image
-            pictureNew[x,y] = value        # Set the RGBA Value of the image (tuple)
+            if (0<=oldCoord(x,y)[0]<=2048) and (0<=oldCoord(x,y)[1]<=2048) :
+                value = picture[xn,yn]          # Get the RGBA Value of the a pixel of an image
+                pictureNew[x,y] = value         # Set the RGBA Value of the image (tuple)
 
     imNew.save(picName)  # Save the modified pixels as .png

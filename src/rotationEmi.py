@@ -1,27 +1,63 @@
 import math
+import random
+import numpy as np
+from matplotlib import pyplot as plt
 
-#Donne les coordonnées du point après une rotation, peut être utilisé comme une fonction annexe
-#Dans le cas pratique on devra donner l'axe par lequel on tourne 
+#Pour un point de l'image (2 dimensions) donne la matrice de rotation correspondant à l'angle
+#en degré
+def giveRotationMatrix(angle):
+    teta=math.radians(angle)
 
-def rotation(x_ini,y_ini,angle,x_rotation,y_rotation):
-    angle=(angle*math.pi)/180
+    Rotation_matrix=[[round(math.cos(teta) ),-round(math.sin(teta))],[round(math.sin(teta)) ,round(math.cos(teta))]]
+    return Rotation_matrix
 
-    x_ur=x_ini-x_rotation #vecteur translation base polaire
-    y_ur=y_ini -y_rotation #vecteur translation base polaire
-
-    x_teta=math.cos(angle)*x_ur -math.sin(angle)*y_ur #vecteur rotation base polaire
-    y_teta=math.sin(angle)*x_ur +math.cos(angle)*y_ur #vecteur rotation base polaire
-
-
-    x_rotation= x_ini+x_teta #calcul du point après modification 
-    y_rotation=y_ini+y_teta
-
-    print(angle,2*math.pi)
-
-
-    return (x_rotation,y_rotation)
+#donne les coordonnées du pixel après rotation
+def rotatePixelCoordonate(angle,x,y):
+    Point=[x,y]
+    rotationMatrix=giveRotationMatrix(angle)
+    return rotationMatrix@Point
 
 
+#pour donner les caractéristiques d'un pixel à savoir ses coordonnées dans un repère x,y et la couleur car on récupère une matrice en chargeant l'image
+def givePixelCoordonate(image,dimension):
+    imageAux=list(image)
+    imageWithCoordonates=[]
+    for k in range(0,len(imageAux)):
+        coordonate=(k//dimension,k%dimension,imageAux[k])
+        imageWithCoordonates.append(coordonate)
+    return coordonate
+
+#fonction principale donnant la couleur d'un pixel a la position x,y
+def rotatePixelTrueColor(image,dimension,x,y):
+        color=0
+        imageWithCoordonates=givePixelCoordonate(image,dimension)
+        for k in range(0,len(imageWithCoordonates)):
+                if(imageWithCoordonates[k][0]==x and imageWithCoordonates[k][1]==y):
+                    color=imageWithCoordonates[k][2]
+
+        if (color==0):
+            print("Pixel non trouvé, valeur par défaut")
+        return color
 
 
-rotation(0,0,360,0,1)
+
+#pour générer mes propres images test
+def createImageTest(dimension):
+    firstPixel=random.randint(0,255)
+    img_numpy=np.full((1,dimension),firstPixel)
+
+    for i in range(0,dimension):
+        firstPixel=random.randint(0,255)
+        new_img_numpy=np.full((1,dimension),firstPixel)
+        img_numpy=np.concatenate((img_numpy,new_img_numpy))
+    plt.imshow(img_numpy)
+    plt.show()
+
+
+
+
+
+
+
+#print(giveRotationMatrix(90))
+print(createImageTest(4))

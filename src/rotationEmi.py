@@ -28,14 +28,17 @@ def givePixelCoordonate(image,dimension):
     return coordonate
 
 #fonction principale donnant la couleur d'un pixel a la position x,y
-def rotatePixelTrueColor(image,dimension,x,y):
-        color=0
+def rotatePixelTrueColor(image,dimension,x,y,angle):
+        color=255
+        Point=rotatePixelCoordonate(angle,x,y)
+        x=Point[0]
+        y=Point[1]
         imageWithCoordonates=givePixelCoordonate(image,dimension)
         for k in range(0,len(imageWithCoordonates)):
                 if(imageWithCoordonates[k][0]==x and imageWithCoordonates[k][1]==y):
                     color=imageWithCoordonates[k][2]
 
-        if (color==0):
+        if (color==255):
             print("Pixel non trouvé, valeur par défaut")
         return color
 

@@ -28,11 +28,13 @@ def afficher_histogramme(data: List[tuple[float, float]]) -> None:
     liste_azimut = []
     liste_hauteur = []
     for i in range(len(data)):
-        liste_azimut.append(data[i][0])
-        liste_hauteur.append(data[i][1])
-    counts, bins = np.histogram(np.array(liste_hauteur), bins=np.arange(91))
+        liste_azimut.append(float(data[i][0]))
+        liste_hauteur.append(float(data[i][1]))
+
+    counts, bins = np.histogram(np.array(liste_azimut), bins=np.arange(360), density='True')
     plt.stairs(counts, bins)
-    print(counts, bins, np.array(liste_hauteur))
+    # print(counts, bins, np.array(liste_azimut))
+
     plt.grid(axis='y', alpha=0.5)
     plt.xlabel('Valeur')
     plt.ylabel('Fréquence')

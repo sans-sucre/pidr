@@ -15,7 +15,7 @@ def giveRotationMatrix(angle):
 def rotatePixelCoordonate(angle,x,y):
     Point=[x,y]
     rotationMatrix=giveRotationMatrix(angle)
-    return rotationMatrix@Point
+    return rotationMatrix@Pointu
 
 
 #pour donner les caractéristiques d'un pixel à savoir ses coordonnées dans un repère x,y et la couleur car on récupère une matrice en chargeant l'image

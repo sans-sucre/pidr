@@ -29,7 +29,7 @@ def givePixelCoordonate(image,dimension):
 
 #fonction principale donnant la couleur d'un pixel a la position x,y
 def rotatePixelTrueColor(image,dimension,x,y):
-        color=0
+        color=255
         imageWithCoordonates=givePixelCoordonate(image,dimension)
         for k in range(0,len(imageWithCoordonates)):
                 if(imageWithCoordonates[k][0]==x and imageWithCoordonates[k][1]==y):

@@ -24,6 +24,7 @@ def reformer_donnees(donnees) :
     return donnees_reforme
 
 
+
 def afficher_histogramme(data) :
     """Cette fonction sert à afficher un histogramme à partir d'une liste qui est constituée par des tuples."""
     liste_azimut = []

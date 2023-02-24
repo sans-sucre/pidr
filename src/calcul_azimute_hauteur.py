@@ -1,7 +1,6 @@
 import numpy as np
 
-
-def coordonnes_polaire(x: float, y: float) -> tuple[float, float]:
+def coordonnes_polaire(x: float, y: float) :
     """
     Cette fonction sert à trouver les coordonnées polaires à partir de coordonnées cartésiennes
     """
@@ -26,7 +25,7 @@ def coordonnes_polaire(x: float, y: float) -> tuple[float, float]:
     return r, delta
 
 
-def calcul_azimut_hauteur(x: float, y: float) -> tuple[float, float]:
+def calcul_azimut_hauteur(x: float, y: float):
     """
     Cette fonction sert à calculer l'azimute et la hauteur à partir de coordonnées cartésiennes du soleil données.
     L'abscisse doit être le nord magnétique, le point origine doit être le centre d'image. Les paramètres x et y sont
@@ -35,10 +34,10 @@ def calcul_azimut_hauteur(x: float, y: float) -> tuple[float, float]:
 
     r, delta = coordonnes_polaire(x, y)
     azimut = delta
-    print("rayon :", r)
+    #print("rayon :", r)
     f = 2.7
     hauteur = 90 - np.rad2deg(r/f)
-    print("hauteur :", hauteur)
+    #print("hauteur :", hauteur)
     return azimut, hauteur
 
 

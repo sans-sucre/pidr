@@ -31,7 +31,6 @@ def coordonnes_polaire(x: float, y: float) :
 
     return r, delta
 
-
 def afficherCourbesRef (nomdefichier : str) :
     ## Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné
 
@@ -76,10 +75,11 @@ def afficherCourbesMes (nomdefichier : str) :
         
         azimut = delta
         f=2,7
-        hauteur = 90 - np.rad2des(r/f)
+        hauteur = 90 - np.rad2deg(r/f)
 
         azimutList.append(azimut)
         elevationList.append(hauteur)
+
         print("x=",x,", y=",y,", r=",r, ", delta=",delta, ", elevation=", hauteur, ", azimut=", azimut)
 
     plt.plot(timeList, azimutList, label = "Azimut")

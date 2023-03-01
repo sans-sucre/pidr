@@ -36,7 +36,7 @@ def calcul_azimut_hauteur(x: float, y: float):
     azimut = delta
     #print("rayon :", r)
     f = 2.7
-    hauteur = 90 - np.rad2deg(r/f)
+    hauteur = np.rad2deg(np.arctan(x/f))
     #print("hauteur :", hauteur)
     return azimut, hauteur
 
@@ -110,5 +110,6 @@ def donneMoyenneEcartsAzimut():
 
 
 #def donneVariance:
-
-print(donneMoyenneEcartsAzimut())
+(x,y)=donnePositionsMesurees()
+(AzimutMes,HauteurMes)=donneAzimutHauteurMesurees(x,y)
+print(HauteurMes)

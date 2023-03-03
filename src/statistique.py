@@ -9,7 +9,7 @@ def coordonnes_polaire(x: float, y: float) :
     r = np.sqrt(x ** 2 + y ** 2)
 
     if x == 0 and y > 0:
-        delta = 90
+        delta = -90
     elif x == 0 and y < 0:
         delta = 270
     else:
@@ -98,7 +98,7 @@ def donneEcartsAzimut():
 
 #fonction qui sera modifiée en fonction de la façon dont on veut calculer l'erreur dans le jeu de données
 def donnEcart(a,b):
-    return b-a
+    return abs(b-a)
 
 #donne la moyenne des ecarts entre les valeurs mesurees et celles de reference, pour effectuer la correction
 def donneMoyenneEcartsAzimut():
@@ -109,7 +109,8 @@ def donneMoyenneEcartsAzimut():
     return m/len(Ecarts)
 
 
+print(donneMoyenneEcartsAzimut())
 #def donneVariance:
 (x,y)=donnePositionsMesurees()
 (AzimutMes,HauteurMes)=donneAzimutHauteurMesurees(x,y)
-print(HauteurMes)
+#print(AzimutMes)

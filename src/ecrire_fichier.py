@@ -1,3 +1,5 @@
+"""Module qui contient les fonctions qui permettent de traiter les données récupérées depuis internet et l'exporter
+ dans un fichier 'data_web.csv' """
 import csv
 import azi_scrapper
 

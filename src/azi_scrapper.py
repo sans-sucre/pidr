@@ -1,3 +1,5 @@
+"""Module qui contient tous les programmes qui permettent de récupérer les données depuis internet en utilisant module
+ selenium de python"""
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.common.keys import Keys

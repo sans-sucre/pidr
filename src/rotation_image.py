@@ -23,6 +23,7 @@ def calcul_coordonne_translation(x: float, y: float, x_translation: float, y_tra
 
 
 def ouvrir_image(chemin: str) -> Image:
+
     im = Image.open(chemin)
     im = im.resize((2048, 2048))
     im.show()
@@ -32,6 +33,7 @@ def ouvrir_image(chemin: str) -> Image:
 def rotation_image(image: Image, angle: float) -> Image:
     """Cette fonction permet de tourner une image en utilisant le module Image dans pillow, le paramètre image doit
      être une chaine de caractères"""
+
     im_rotation = image.rotate(angle)
     im_rotation.show()
     return im_rotation
@@ -39,6 +41,7 @@ def rotation_image(image: Image, angle: float) -> Image:
 
 def transformation_matrice(image: Image) -> array:
     """Cette fonction permet de transformer une image en une matrice (array)"""
+
     a = np.asarray(image)
     return a
 

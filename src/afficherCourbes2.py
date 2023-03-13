@@ -34,7 +34,7 @@ def coordonnes_polaire(x: float, y: float) :
     if x == 0 and y > 0:
         delta = 90
     elif x == 0 and y < 0:
-        delta = 270
+        delta = 180
     else:
         delta = np.rad2deg(np.arctan(y / x))
 
@@ -54,7 +54,7 @@ def calcul_azimut_hauteur(x: float, y: float):
     en mm.
     """
 
-    r, delta = coordonnes_polaire(x, y)
+    r, delta = coordonnes_polaire(-y, x)
     azimut = delta
     #print("rayon :", r)
     f = 512*np.sqrt(2)
@@ -101,7 +101,7 @@ def afficherCourbesMes (nomdefichier : str) :
 
     for m in range (len(data[0])):
         timeList.append(m*5/60)
-        x, y = calcul_coordonne_rotation(float(data[0][m]),float(data[1][m]),90)
+        x, y = float(data[0][m]), float(data[1][m])
 
         azimut, hauteur = calcul_azimut_hauteur(x-1023,y-1023)
 

@@ -1,58 +1,64 @@
-"""Module qui contient les fonctions qui permettent de traiter les données récupérées depuis internet et l'exporter
- dans un fichier 'data_web.csv' """
+"""
+Module qui contient les fonctions qui permettent de traiter les données récupérées
+depuis internet et l'exporter dans un fichier 'data_web.csv'
+"""
 import csv
+
 import azi_scrapper
 
+HorizontalCoordinate = tuple[float, float]
+DailySunTrajectory = list[HorizontalCoordinate]
 
-def traitement_data(data: str) -> list[tuple[float, float]]:
-    """Cette fonction prend data sous forme string comme entrée et donne une liste de string comme sortie. Les données
-    sorties ne comprisent que les azimuths et les hauteurs.
-    @param data : Ce sont les données récupérées depuis internet type : string
+
+def webdata_to_daily_sun_trajectory(webdata: str) -> DailySunTrajectory:
     """
-    azimuth_hauteur = []
+    @param webdata: données récupérées depuis internet
+    @return liste de couples azimuth/hauteur
+    """
+    azimuth_altitude_pairs = []
 
-    data_list = data.split('\n')
-    for i in range(4, len(data_list)):
-        element = data_list[i].split(" ")
-        element[1] = transformer_str2float(element[1])
-        element[2] = transformer_str2float(element[2])
+    webdata = webdata.split("\n")
+    # les 4 premières lignes ne contiennent pas les données azimuth/hauteur
+    webdata = webdata[4:]
 
-        azimuth_hauteur.append((element[1], element[2]))
-    return azimuth_hauteur
+    for azimuth_altitude_pair in webdata:
+        _, azimuth_str, altitude_str, *_ = azimuth_altitude_pair.split(" ")
+        azimuth = _degree_str_to_float(azimuth_str)
+        altitude = _degree_str_to_float(altitude_str)
+        azimuth_altitude_pairs.append((azimuth, altitude))
 
-
-def transformer_str2float(ent: str) -> float:
-    """Cette fonction permet de transformer une chaîne de caractère en int en enlevant le degré à la fin de la chaîne
-    de caractères.
-    @param ent: C'est une entrée sous forme de chaîne de caractère"""
-
-    taille = len(ent)
-
-    # c'est pour enlever le degré à la fin de la chaîne de caractères
-    nouvel_float = float(ent[0:taille - 1])
-    return nouvel_float
+    return azimuth_altitude_pairs
 
 
-def export_data(data: list[tuple[float, float]]):
-    """Cette fonction sert à écrire toutes les données dans le fichier csv"""
-    ligne1 = ligne2 = []
+def _degree_str_to_float(to_convert: str) -> float:
+    """
+    @param to_convert: élément à convertir vers un float en enlevant le symbole de
+        degré à la fin.
+    """
+    to_convert = to_convert.removesuffix("°")
+    return float(to_convert)
 
-    # séparer les données en deux listes, la première ligne présente azimuth, la deuxième est celle de hauteur
-    for i in range(len(data)):
-        ligne1.append(data[i][0])
-        ligne2.append(data[i][1])
+
+def export_daily_sun_trajectory_to_csv(
+    daily_sun_trajectory: DailySunTrajectory,
+) -> None:
+    """Exporte la trajectoire du soleil dans un fichier au format csv."""
+    azimuths = [azimuth for azimuth, _ in daily_sun_trajectory]
+    altitudes = [altitude for _, altitude in daily_sun_trajectory]
 
     # écrire les données dans le fichier csv, le fichier sorti s'appelle "data_web.csv"
-    with open('../Data/data_web.csv', 'w', newline='') as csvfile:
-        data_writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        data_writer.writerow(ligne1)
-        data_writer.writerow(ligne2)
+    with open("../Data/data_web.csv", "w", newline="") as csvfile:
+        writer = csv.writer(
+            csvfile, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL
+        )
+        writer.writerow(azimuths)
+        writer.writerow(altitudes)
 
 
-# transformer les web data sous forme de liste de string, azi_scrapper est le programme utilisé pour récuréper
-# des données
-data_traite = traitement_data(azi_scrapper.data_web)
+# transformer les web data sous forme de liste de string
+# azi_scrapper est le programme utilisé pour récupérer des données
+data_traite = webdata_to_daily_sun_trajectory(azi_scrapper.data_web)
 print(data_traite)
 
 # exporter les données sous forme de csv
-export_data(data_traite)
+export_daily_sun_trajectory_to_csv(data_traite)

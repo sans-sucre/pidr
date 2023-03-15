@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 file_mes = "Depot/data_mes.csv"
 file_ref = "Depot/data_ref.csv"
 
-import numpy as np
+
+# Calculs sur les coordonées
 
 def calcul_coordonne_translation(x: float, y: float, x_translation: float, y_translation: float):
     """Cette fonction sert à calculer les coordonnées après la translation"""
@@ -38,14 +39,20 @@ def coordonnes_polaire(x: float, y: float) :
     else:
         delta = np.rad2deg(np.arctan(y / x))
 
-    if x < 0 < y:
-        delta += 90
-    elif x < 0 and y < 0:
-        delta += 90
-    elif x > 0 > y:
-        delta += 270
+    if x > 0 > y:
+        delta += 180
+    elif x > 0 and y > 0:
+        delta -= 180
 
-    return r, delta-90
+    return r, delta
+
+def coordonnees_cartesiennes(r: float, theta: float) :
+    x=r*np.cos(theta)
+    y=r*np.sin(theta)
+    return x,y
+
+
+# Calcul de l'azimut et de la hauteur
 
 def calcul_azimut_hauteur(x: float, y: float):
     """
@@ -56,13 +63,26 @@ def calcul_azimut_hauteur(x: float, y: float):
 
     r, delta = coordonnes_polaire(x, y)
     azimut = delta
-    #print("rayon :", r)
     f = 512*np.sqrt(2)
     hauteur = (1-r/f)* 90
     if hauteur < 0 :
         hauteur = 0
-    #print("hauteur :", hauteur)
     return azimut, hauteur
+
+def calcul_aziHaut_to_cart(a: float, h: float):
+    """
+    Cette fonction sert à calculer les coordonées x et y du soleil à partir de l'azimut et la hauteur.
+    """
+    f = 512*np.sqrt(2)
+
+    r = f*(1-h/90)
+    theta = a
+
+    x,y= coordonnees_cartesiennes(r,np.deg2rad(theta-90))
+    return x, y
+
+
+# Affichage des courbes
 
 def afficherCourbesRef (nomdefichier : str) :
     ## Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné
@@ -108,8 +128,6 @@ def afficherCourbesMes (nomdefichier : str) :
         azimutList.append(azimut)
         elevationList.append(hauteur)
 
-        print("x=",x-1023,", y=",y-1023, ", elevation=", hauteur, ", azimut=", azimut)
-
     plt.plot(timeList, azimutList, label = "Azimut")
     plt.plot(timeList, elevationList, label = "Hauteur")
     
@@ -119,5 +137,55 @@ def afficherCourbesMes (nomdefichier : str) :
     plt.legend()
     plt.show()
 
-afficherCourbesRef(file_ref)
-afficherCourbesMes(file_mes)
+def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
+    ## Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné
+
+    fileMES = open(nomdefichierMES,"r")
+    dataMES = list(csv.reader(fileMES, delimiter=","))
+    fileMES.close()
+
+    fileREF = open(nomdefichierREF,"r")
+    dataREF = list(csv.reader(fileREF, delimiter=","))
+    fileREF.close()
+
+    xListMES = []
+    yListMES = []
+
+    xListREF = []
+    yListREF = []
+
+    for m in range (len(dataMES[0])):
+        #Partie des données mesurées
+        x, y = calcul_coordonne_rotation(float(dataMES[0][m]),float(dataMES[1][m]),180)
+        x=x-1023
+        y=y-1023
+
+        if (x*x + y*y <= 700*700) :
+            xListMES.append(x)
+            yListMES.append(y)
+
+    for m in range (len(dataREF[0])):
+        #Partie des données de référence :
+        a, h = float(dataREF[0][m]),float(dataREF[1][m])
+        x_ref, y_ref = calcul_aziHaut_to_cart(a,h)
+
+        if (x_ref*x_ref + y_ref*y_ref <= 700*700) :
+            xListREF.append(x_ref)
+            yListREF.append(y_ref)
+
+
+    plt.plot(xListMES, yListMES, label = "Valeurs Mesurées")
+    plt.plot(xListREF, yListREF, label = "Valeurs Théoriques")
+    plt.plot(700*np.cos(np.linspace(0,2*np.pi,150)), 700*np.sin(np.linspace(0,2*np.pi,150)))
+
+    plt.xlim(-800,800)
+    plt.ylim(-800,800)
+
+    plt.title('Parcours du soleil au cours d\'une journée ')
+    plt.legend()
+    plt.show()
+
+#afficherCourbesRef(file_ref)
+#afficherCourbesMes(file_mes)
+
+afficherParcours(file_ref,file_mes)

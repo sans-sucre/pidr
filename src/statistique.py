@@ -1,7 +1,6 @@
 import numpy as np
 #################################Calculs azimut/hauteur
 
-
 def coordonnes_polaire(x: float, y: float) :
     """
     Cette fonction sert à trouver les coordonnées polaires à partir de coordonnées cartésiennes
@@ -11,18 +10,16 @@ def coordonnes_polaire(x: float, y: float) :
     r = np.sqrt(x ** 2 + y ** 2)
 
     if x == 0 and y > 0:
-        delta = -90
+        delta = 90
     elif x == 0 and y < 0:
         delta = 270
     else:
         delta = np.rad2deg(np.arctan(y / x))
 
-    if x < 0 < y:
-        delta += 90
-    elif x < 0 and y < 0:
+    if x > 0 > y:
         delta += 180
-    elif x > 0 > y:
-        delta += 270
+    elif x > 0 and y > 0:
+        delta -= 180
 
     return r, delta
 
@@ -37,8 +34,10 @@ def calcul_azimut_hauteur(x: float, y: float):
     r, delta = coordonnes_polaire(x, y)
     azimut = delta
     #print("rayon :", r)
-    f = 2.7
-    hauteur = np.rad2deg(np.arctan(x/f))
+    f = 512*np.sqrt(2)
+    hauteur = (1-r/f)* 90
+    if hauteur < 0 :
+        hauteur = 0
     #print("hauteur :", hauteur)
     return azimut, hauteur
 
@@ -93,7 +92,8 @@ def donneEcartsAzimut():
     (AzimutMes,HauteurMes)=donneAzimutHauteurMesurees(x,y)
     Ecarts=[]
     for k in range(0,len(AzimutRef)):
-        Ecarts.append(donnEcart(AzimutRef[k],AzimutMes[k]))
+        if (AzimutRef[k] != 0) and (AzimutMes[k] != 0):
+            Ecarts.append(donnEcart(AzimutRef[k],AzimutMes[k]))
 
     return Ecarts
 

@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 file_mes = "data_mes.csv"
 file_ref = "data_ref.csv"
 
-import numpy as np
 
 # Calculs sur les coordonées
 
@@ -52,6 +51,7 @@ def coordonnees_cartesiennes(r: float, theta: float) :
     y=r*np.sin(theta)
     return x,y
 
+
 # Calcul de l'azimut et de la hauteur
 
 def calcul_azimut_hauteur(x: float, y: float):
@@ -63,12 +63,10 @@ def calcul_azimut_hauteur(x: float, y: float):
 
     r, delta = coordonnes_polaire(x, y)
     azimut = delta
-    #print("rayon :", r)
     f = 512*np.sqrt(2)
     hauteur = (1-r/f)* 90
     if hauteur < 0 :
         hauteur = 0
-    #print("hauteur :", hauteur)
     return azimut, hauteur
 
 def calcul_aziHaut_to_cart(a: float, h: float):
@@ -129,8 +127,6 @@ def afficherCourbesMes (nomdefichier : str) :
 
         azimutList.append(azimut)
         elevationList.append(hauteur)
-
-        print("x=",x-1023,", y=",y-1023, ", elevation=", hauteur, ", azimut=", azimut)
 
     plt.plot(timeList, azimutList, label = "Azimut")
     plt.plot(timeList, elevationList, label = "Hauteur")

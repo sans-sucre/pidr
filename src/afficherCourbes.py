@@ -2,8 +2,8 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-file_mes = "data_mes.csv"
-file_ref = "data_ref.csv"
+file_mes = "Depot/data_mes.csv"
+file_ref = "Depot/data_ref.csv"
 
 import numpy as np
 
@@ -98,7 +98,7 @@ def afficherCourbesMes (nomdefichier : str) :
     azimutList = []
     elevationList = []
     timeList = []
-
+    print(len(data[0]),len(data[1]))
     for m in range (len(data[0])):
         timeList.append(m*5/60)
         x, y = calcul_coordonne_rotation(float(data[0][m]),float(data[1][m]),90)

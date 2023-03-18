@@ -1,10 +1,11 @@
 import numpy as np
 from math import *
 import csv
+import copy
 
 ##a redéfinir avec les indications du prof
-MAPE_max=4
-MAPE_min=0.5
+MAPE_max=0.3
+
 
 
 ################fonction principale
@@ -31,40 +32,42 @@ def donneDecalageAzimut():
     Decalage=[]
     ValeursPredites=[]
     ValeursObservees=[]
+    print(len(AzimutRef))
 
     for k in range(0,len(AzimutRef)):
-
+            
             if valeurAcceptee(AzimutRef[k],AzimutMes[k],ValeursPredites,ValeursObservees):
                 Decalage.append(donneDecalage(AzimutRef[k],AzimutMes[k]))
                 ValeursPredites.append(AzimutRef[k])
                 ValeursObservees.append(AzimutMes[k])
     
 
-
+    print(len(ValeursObservees))
     return Decalage
 
 
 #effectue un test sur les valeurs que l'on va ajouter pour eviter toute valeur aberrante pouvant modifier la callibration
 
 def valeurAcceptee(AzimutRefCourant,AzimutMesCourant,ValeursPredites,ValeursObservees):
+    Vp=ValeursPredites.copy()
+    Vo=ValeursObservees.copy()
 
-
-    ValeursPredites.append(AzimutRefCourant)
-    ValeursObservees.append(AzimutMesCourant)
-
+    Vp.append(AzimutRefCourant)
+    Vo.append(AzimutMesCourant)
     
     if (AzimutRefCourant == 0) or(AzimutMesCourant== 0):
         return False
     
 
-    ErreurQuadratique=donneErreurMoyenneAbsolue(ValeursObservees,ValeursPredites)
+    ErreurQuadratique=donneErreurMoyenneAbsolue(Vo,Vp)
 
     if ErreurQuadratique >MAPE_max:
         return False
     
+    else:
 
-    return True
-    return 
+        return True
+    
 
 
 
@@ -78,6 +81,7 @@ def donneErreurMoyenneAbsolue(ValeursObservees,ValeursPredites):
     if len(ValeursObservees)==0:
         return 0
     else:
+        print(erreur/len(ValeursPredites))
 
         return erreur/len(ValeursPredites)
 
@@ -111,7 +115,6 @@ def donnePositionsMesurees():
         y.append(int(donnees[1][k]))
 
     f.close()
-    print(len(x),len(y))
     return (x,y)
 
 #donne l'azimut et la hauteur de reference du fichier de reference pour chaque point
@@ -125,7 +128,7 @@ def donneAzimutHauteurTheo():
         hauteur.append(int(donnees[1][k]))
 
     f.close()
-    print(len(hauteur))
+    
     return (azimut,hauteur)
 
 
@@ -139,79 +142,6 @@ def donneAzimutHauteurMesurees(x,y):
         Azimut.append(donnees[0])
         Hauteur.append(donnees[1])
     return (Azimut,Hauteur)
-
-
-
-#Retourne la liste des decalage pour les differentes valeurs de reference et mesuree, en effectuant un test sur l'erreur quadratique
-def donneDecalageAzimut():
-    (x,y)=donnePositionsMesurees()
-    (AzimutRef,HauteurRef)=donneAzimutHauteurTheo()
-    (AzimutMes,HauteurMes)=donneAzimutHauteurMesurees(x,y)
-    Decalage=[]
-    ValeursPredites=[]
-    ValeursObservees=[]
-
-    for k in range(0,len(AzimutRef)):
-
-            if valeurAcceptee(AzimutRef[k],AzimutMes[k],ValeursPredites,ValeursObservees):
-                Decalage.append(donneDecalage(AzimutRef[k],AzimutMes[k]))
-                ValeursPredites.append(AzimutRef[k])
-                ValeursObservees.append(AzimutMes[k])
-    
-
-
-    return Decalage
-
-
-#effectue un test sur les valeurs que l'on va ajouter pour eviter toute valeur aberrante pouvant modifier la callibration
-
-def valeurAcceptee(AzimutRefCourant,AzimutMesCourant,ValeursPredites,ValeursObservees):
-
-
-    ValeursPredites.append(AzimutRefCourant)
-    ValeursObservees.append(AzimutMesCourant)
-
-    
-    if (AzimutRefCourant == 0) or(AzimutMesCourant== 0):
-        return False
-    
-
-    ErreurQuadratique=donneErreurMoyenneAbsolue(ValeursObservees,ValeursPredites)
-    print(ErreurQuadratique)
-    if ErreurQuadratique >MAPE_max:
-        return False
-    
-
-    return True
-    return 
-
-
-
-#calcule l'erreur absolue moyenne
-
-def donneErreurMoyenneAbsolue(ValeursObservees,ValeursPredites):
-    erreur=0
-    for k in range(0,len(ValeursObservees)):
-        erreur=erreur+(abs(ValeursObservees[k]-ValeursPredites[k])/abs(ValeursObservees[k]))
-
-    if len(ValeursObservees)==0:
-        return 0
-    else:
-
-        return erreur/len(ValeursPredites)
-
-
-def donneErreurQuadratique(ValeursObservees,ValeursPredites):
-    erreur=0
-    for k in range(0,len(ValeursObservees)):
-        erreur=erreur+((ValeursObservees[k]-ValeursPredites[k])**2)
-
-    if len(ValeursObservees)==0:
-        return 0
-    else:
-
-        return sqrt(erreur/len(ValeursPredites))
-
 
 
 

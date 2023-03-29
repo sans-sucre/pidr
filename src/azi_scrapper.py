@@ -73,7 +73,7 @@ def _select_x(xpath: str, valeur: int) -> None:
     """
     select = Select(driver.find_element(By.XPATH, xpath))
     select.select_by_value(str(valeur))
-    print(select.first_selected_option.text)
+    # print(select.first_selected_option.text)
 
 
 # configuration de date de données à récupérer, None = valeur par défaut, cf config_date
@@ -94,5 +94,5 @@ sleep(1)
 
 # data sans traitement, pour l'exporter, rf ecrire_fichier.py
 data_web = coord.find_element(By.XPATH, '//*[@id="tabSunHour"]').text
-#print(data_web)
+# print(data_web)
 driver.close()

@@ -33,8 +33,8 @@ def afficher_histogramme(data) :
         liste_azimut.append(float(data[i][0]))
         liste_hauteur.append(float(data[i][1]))
 
-    counts, bins = np.histogram(np.array(liste_azimut), bins=np.arange(360), density='True')
-    counts, bins = np.histogram(np.array(liste_azimut), bins=np.arange(360), density='True')
+    counts, bins = np.histogram(np.array(liste_azimut), bins=np.arange(360), density=True)
+    counts, bins = np.histogram(np.array(liste_azimut), bins=np.arange(360), density=True)
     
     plt.stairs(counts, bins)
     # print(counts, bins, np.array(liste_azimut))

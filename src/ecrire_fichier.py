@@ -51,8 +51,8 @@ def export_daily_sun_trajectory_to_csv(
         writer = csv.writer(
             csvfile, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL
         )
-        writer.writerow(azimuths)
         writer.writerow(altitudes)
+        writer.writerow(azimuths)
 
 
 # transformer les web data sous forme de liste de string

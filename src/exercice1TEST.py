@@ -45,3 +45,4 @@ def saveNewPicture (picName,transX,transY,rotD) :
                 pictureNew[x,y] = value         # Set the RGBA Value of the image (tuple)
 
     imNew.save(picName)  # Save the modified pixels as .png
+print(oldCoord(0,0,45,0,2))

@@ -2,8 +2,8 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-file_mes = "Depot/data_mes.csv"
-file_ref = "Depot/data_ref.csv"
+file_mes = "Data/data_mes.csv"
+file_ref = "Data/data_web.csv"
 
 
 # Calculs sur les coordonées
@@ -85,7 +85,7 @@ def calcul_aziHaut_to_cart(a: float, h: float):
 # Affichage des courbes
 
 def afficherCourbesRef (nomdefichier : str) :
-    ## Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné
+    """ Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné"""
 
     file = open(nomdefichier,"r")
     data = list(csv.reader(file, delimiter=","))
@@ -94,10 +94,11 @@ def afficherCourbesRef (nomdefichier : str) :
     azimutList = []
     elevationList = []
     timeList = []
+    
     for m in range (len(data[0])):
         timeList.append(m*5/60)
-        azimutList.append(int(data[0][m]))
-        elevationList.append(int(data[1][m]))
+        azimutList.append(float(data[0][m])-180)
+        elevationList.append(float(data[1][m]))
 
     plt.plot(timeList, azimutList, label = "Azimut")
     plt.plot(timeList, elevationList, label = "Hauteur")
@@ -106,10 +107,12 @@ def afficherCourbesRef (nomdefichier : str) :
     plt.ylabel('Degré de l\'angle')
     plt.title('Evolution de l\'azimut et la hauteur au cours d\'une journée ')
     plt.legend()
+    plt.savefig("Data/courbeAzElREF.png")
     plt.show()
+    
 
 def afficherCourbesMes (nomdefichier : str) :
-    ## Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné
+    """ Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné"""
 
     file = open(nomdefichier,"r")
     data = list(csv.reader(file, delimiter=","))
@@ -118,7 +121,7 @@ def afficherCourbesMes (nomdefichier : str) :
     azimutList = []
     elevationList = []
     timeList = []
-    print(len(data[0]),len(data[1]))
+
     for m in range (len(data[0])):
         timeList.append(m*5/60)
         x, y = calcul_coordonne_rotation(float(data[0][m]),float(data[1][m]),90)
@@ -135,10 +138,11 @@ def afficherCourbesMes (nomdefichier : str) :
     plt.ylabel('Degré de l\'angle')
     plt.title('Evolution de l\'azimut et la hauteur au cours d\'une journée ')
     plt.legend()
+    plt.savefig("Data/courbeAzElMES.png")
     plt.show()
 
 def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
-    ## Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné
+    """ Cette fonction affiche le parcours du soleil à l'aide de fichiers de REF (contenant des azimuts et hauteurs) et un fichier MES (contenant des coordonnées x et y). """
 
     fileMES = open(nomdefichierMES,"r")
     dataMES = list(csv.reader(fileMES, delimiter=","))
@@ -173,7 +177,7 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
             xListREF.append(x_ref)
             yListREF.append(y_ref)
 
-
+    plt.figure(figsize=(7,7))
     plt.plot(xListMES, yListMES, label = "Valeurs Mesurées")
     plt.plot(xListREF, yListREF, label = "Valeurs Théoriques")
     plt.plot(700*np.cos(np.linspace(0,2*np.pi,150)), 700*np.sin(np.linspace(0,2*np.pi,150)))
@@ -183,9 +187,11 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
 
     plt.title('Parcours du soleil au cours d\'une journée ')
     plt.legend()
+    plt.savefig("Data/parcoursSoleil.png")
     plt.show()
 
-#afficherCourbesRef(file_ref)
-#afficherCourbesMes(file_mes)
+afficherCourbesRef(file_ref)
+
+afficherCourbesMes(file_mes)
 
 afficherParcours(file_ref,file_mes)

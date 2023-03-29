@@ -32,7 +32,7 @@ def coordonnes_polaire(x: float, y: float) :
     r = np.sqrt(x ** 2 + y ** 2)
 
     if x == 0 and y > 0:
-        delta = 90
+        delta = 0
     elif x == 0 and y < 0:
         delta = 180
     else:
@@ -119,5 +119,5 @@ def afficherCourbesMes (nomdefichier : str) :
     plt.legend()
     plt.show()
 
-afficherCourbesRef(file_ref)
+#afficherCourbesRef(file_ref)
 afficherCourbesMes(file_mes)

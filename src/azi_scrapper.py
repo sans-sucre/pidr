@@ -21,6 +21,8 @@ driver.get("https://www.sunearthtools.com/dp/tools/pos_sun.php?lang=fr")
 sleep(1)
 
 
+
+
 def config_interval(interval: int) -> None:
     """
     Configure les intervalles de mesure. Par défaut, l'intervalle est de 60 minutes.

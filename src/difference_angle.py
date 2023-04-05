@@ -7,8 +7,9 @@ file_mes = "data_mes.csv"
 file_ref = "data_ref.csv"
 
 
-## Cette fonction renvoie la liste des valeurs d'azimut au cours d'une journée données dans un fichier REFERENCE csv donné
+
 def azimutREF (nomdefichier : str) :
+    """Cette fonction renvoie la liste des valeurs d'azimut au cours d'une journée données dans un fichier REFERENCE csv donné"""
 
     file = open(nomdefichier,"r")
     data = list(csv.reader(file, delimiter=","))
@@ -21,8 +22,9 @@ def azimutREF (nomdefichier : str) :
 
     return azimutList
 
-## Cette fonction renvoie la liste des valeurs d'azimut au cours d'une journée données dans un fichier MESURE csv donné
+
 def azimutMES (nomdefichier : str) :
+    """Cette fonction renvoie la liste des valeurs d'azimut au cours d'une journée données dans un fichier MESURE csv donné"""
 
     file = open(nomdefichier,"r")
     data = list(csv.reader(file, delimiter=","))
@@ -39,8 +41,10 @@ def azimutMES (nomdefichier : str) :
 
     return azimutList
 
-## Cette fonction renvoie la différence d'angle entre l'azimut du fichier de REFERENCE et celui MESURE
+
 def donneEcartsAzimut(nomdefichierREF : str, nomdefichierMES : str):
+    """Cette fonction renvoie la différence d'angle entre l'azimut du fichier de REFERENCE et celui MESURE"""
+
     Ecarts=[]
 
     a_ref = azimutREF(nomdefichierREF)
@@ -57,5 +61,5 @@ def donneEcartsAzimut(nomdefichierREF : str, nomdefichierMES : str):
 
     return moyenne/len(Ecarts)
 
-print(donneEcartsAzimut(file_ref, file_mes))
+##print(donneEcartsAzimut(file_ref, file_mes))
 

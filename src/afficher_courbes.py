@@ -190,8 +190,8 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
     plt.savefig("Data/parcoursSoleil.png")
     plt.show()
 
-##afficherCourbesRef(file_ref)
+afficherCourbesRef(file_ref)
 
-##afficherCourbesMes(file_mes)
+afficherCourbesMes(file_mes)
 
-##afficherParcours(file_ref,file_mes)
+afficherParcours(file_ref,file_mes)

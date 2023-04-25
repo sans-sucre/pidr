@@ -97,7 +97,12 @@ def afficherCourbesRef (nomdefichier : str) :
     
     for m in range (len(data[0])):
         timeList.append(m*5/60)
-        azimutList.append(float(data[0][m])-180)
+        if (float(data[0][m])>0) :
+            azimutList.append(float(data[0][m])-180)
+        elif (float(data[0][m])<0) :
+            azimutList.append(float(data[0][m])+180)
+        else :
+            azimutList.append(float(data[0][m]))
         elevationList.append(float(data[1][m]))
 
     plt.plot(timeList, azimutList, label = "Azimut")
@@ -190,7 +195,7 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
     plt.savefig("Data/parcoursSoleil.png")
     plt.show()
 
-##afficherCourbesRef(file_ref)
+afficherCourbesRef(file_ref)
 
 ##afficherCourbesMes(file_mes)
 

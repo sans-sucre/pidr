@@ -20,7 +20,12 @@ def azimutREF (nomdefichier : str) :
     azimutList = []
 
     for m in range (len(data[0])):
-        azimutList.append(float(data[0][m]))
+        if (float(data[0][m])>0) :
+            azimutList.append(float(data[0][m])-180)
+        elif (float(data[0][m])<0) :
+            azimutList.append(float(data[0][m])+180)
+        else :
+            azimutList.append(float(data[0][m]))
 
     return azimutList
 

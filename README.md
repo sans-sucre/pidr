@@ -77,11 +77,16 @@ python3 ecrire_fichier.py
 ```
 #### Visualisation des données : 
 
-afficherCourbesRef(file_ref)
-
-afficherCourbesMes(file_mes)
-
-afficherParcours(file_ref,file_mes)
+- Pour visualiser les données il faut être dans le repertoire pidr. Si vous êtes dans le répertoire src, faites : 
+```bash
+cd ..
+```
+- Pour enregistrer les courbes : 
+```bash
+python3 affichercourbes.py nomDuFichierDeReference nomDuFichierDeMesure
+```
+nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
+nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
 
 #### Exemples : 
 Pour exécuter 

@@ -7,12 +7,15 @@ import copy
 
 ##a redéfinir avec les indications du prof
 MAPE_max=0.8
+file_mes = "Data/data_mes.csv"
+file_ref = "Data/data_ref.csv"
+
 
 
 def donne_moyenne_decalage_azimut():
 
     """"donne la moyenne des ecarts entre les valeurs mesurees et celles de reference, pour effectuer la correction """
-    
+
     Ecarts=donne_decalage_azimut()
 
     m=0
@@ -110,7 +113,7 @@ def donne_erreur_quadratique(ValeursObservees,ValeursPredites):
 def donne_positions_mesurees():
     """donne la liste des coordonnées x et y a partir du fichier data_mes"""
 
-    f = open("Depot/data_mes.csv","r")
+    f = open(file_mes,"r")
     donnees = list(csv.reader(f, delimiter=","))
    
    
@@ -127,7 +130,7 @@ def donne_positions_mesurees():
 
 def donne_azimut_hauteur_theo():
     """donne l'azimut et la hauteur de reference du fichier de reference pour chaque point"""
-    f= open("Data/data_ref.csv","r")
+    f= open(file_ref,"r")
     donnees = list(csv.reader(f, delimiter=","))
     azimut=[]
     hauteur=[]
@@ -175,4 +178,11 @@ def donne_ecartype():
 
 
 
-print(donne_moyenne_decalage_azimut())
+if __name__ == '__main__':
+    if len(sys.argv)>=2:
+       file_ref = sys.argv[1]
+       file_mes = sys.argv[2]
+
+    print(donne_moyenne_decalage_azimut())
+
+

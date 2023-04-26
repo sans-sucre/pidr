@@ -2,12 +2,11 @@ import csv
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-from afficher_courbes import calcul_coordonne_rotation, calcul_azimut_hauteur
+from afficher_courbes import calcul_coordonne_rotation
+from calcul_azimute_hauteur import calcul_azimut_hauteur
 
-file_mes = "data_mes.csv"
-file_ref = "data_ref.csv"
-
-
+file_mes = "Data/data_mes.csv"
+file_ref = "Data/data_web.csv"
 
 
 def azimutREF (nomdefichier : str) :
@@ -42,7 +41,7 @@ def azimutMES (nomdefichier : str) :
     for m in range (len(data[0])):
         x, y = calcul_coordonne_rotation(float(data[0][m]),float(data[1][m]),90)
 
-        azimut, hauteur = calcul_azimut_hauteur(x-1023,y-1023)
+        azimut, hauteur = calcul_azimut_hauteur(x-1023,y-1023,90)
 
         azimutList.append(azimut)
 
@@ -69,7 +68,6 @@ def donneEcartsAzimut(nomdefichierREF : str, nomdefichierMES : str):
     return moyenne/len(Ecarts)
 
 ##print(donneEcartsAzimut(file_ref, file_mes))
-
 
 if __name__ == '__main__':
     file_ref = sys.argv[1]

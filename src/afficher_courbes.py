@@ -1,10 +1,11 @@
 import csv
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
+from calcul_azimute_hauteur import calcul_azimut_hauteur
 
-file_mes = "Data/data_mes.csv"
-file_ref = "Data/data_web.csv"
-
+#file_mes = "Data/data_mes.csv"
+#file_ref = "Data/data_web.csv"
 
 # Calculs sur les coordonées
 
@@ -54,21 +55,6 @@ def coordonnees_cartesiennes(r: float, theta: float) :
 
 # Calcul de l'azimut et de la hauteur
 
-def calcul_azimut_hauteur(x: float, y: float):
-    """
-    Cette fonction sert à calculer l'azimute et la hauteur à partir de coordonnées cartésiennes du soleil données.
-    L'abscisse doit être le nord magnétique, le point origine doit être le centre d'image. Les paramètres x et y sont
-    en mm.
-    """
-
-    r, delta = coordonnes_polaire(x, y)
-    azimut = delta
-    f = 512*np.sqrt(2)
-    hauteur = (1-r/f)* 90
-    if hauteur < 0 :
-        hauteur = 0
-    return azimut, hauteur
-
 def calcul_aziHaut_to_cart(a: float, h: float):
     """
     Cette fonction sert à calculer les coordonées x et y du soleil à partir de l'azimut et la hauteur.
@@ -115,7 +101,6 @@ def afficherCourbesRef (nomdefichier : str) :
     plt.savefig("Data/courbeAzElREF.png")
     plt.show()
     
-
 def afficherCourbesMes (nomdefichier : str) :
     """ Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné"""
 
@@ -129,11 +114,12 @@ def afficherCourbesMes (nomdefichier : str) :
 
     for m in range (len(data[0])):
         timeList.append(m*5/60)
-        x, y = calcul_coordonne_rotation(float(data[0][m]),float(data[1][m]),90)
 
-        azimut, hauteur = calcul_azimut_hauteur(x-1023,y-1023)
+        azimut, hauteur = calcul_azimut_hauteur(float(data[0][m])-1023,float(data[1][m])-1023,90)
 
         azimutList.append(azimut)
+        if (hauteur < 0):
+            hauteur = 0
         elevationList.append(hauteur)
 
     plt.plot(timeList, azimutList, label = "Azimut")
@@ -176,6 +162,10 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
     for m in range (len(dataREF[0])):
         #Partie des données de référence :
         a, h = float(dataREF[0][m]),float(dataREF[1][m])
+        if (a>0) :
+            a = (a-180)
+        elif (a<0) :
+            a = a + 180
         x_ref, y_ref = calcul_aziHaut_to_cart(a,h)
 
         if (x_ref*x_ref + y_ref*y_ref <= 700*700) :
@@ -195,8 +185,15 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
     plt.savefig("Data/parcoursSoleil.png")
     plt.show()
 
-afficherCourbesRef(file_ref)
+##afficherCourbesRef(file_ref)
 
 ##afficherCourbesMes(file_mes)
 
-##afficherParcours(file_ref,file_mes)
+#afficherParcours(file_ref,file_mes)
+
+if __name__ == '__main__':
+    file_ref = sys.argv[1]
+    file_mes = sys.argv[2]
+    afficherCourbesRef(file_ref)
+    afficherCourbesMes(file_mes)
+    afficherParcours(file_ref, file_mes)

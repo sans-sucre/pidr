@@ -77,14 +77,26 @@ python3 ecrire_fichier.py
 ```
 #### Visualisation des données : 
 
-afficherCourbesRef(file_ref)
+- Pour visualiser les données il faut être dans le repertoire pidr. Si vous êtes dans le répertoire src, faites : 
+```bash
+cd ..
+```
+- Pour enregistrer les courbes : 
+```bash
+python3 affichercourbes.py nomDuFichierDeReference nomDuFichierDeMesure
+```
+nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
+nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
 
-afficherCourbesMes(file_mes)
+#### Obtentiion du décalage : 
+Pour exécuter et obtenir la valeur du décalage :
 
-afficherParcours(file_ref,file_mes)
+```bash
+python3 src/statistique.py nomDuFichierDeReference nomDuFichierDeMesure
+```
+nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
+nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
 
-#### Exemples : 
-Pour exécuter 
 
 ## Pour plus d'information 
 

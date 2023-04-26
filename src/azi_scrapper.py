@@ -2,6 +2,7 @@
 Module qui contient tous les programmes qui permettent de récupérer les données
 depuis internet en utilisant module selenium.
 """
+import sys
 from time import sleep
 
 from selenium import webdriver
@@ -19,8 +20,6 @@ driver = webdriver.Chrome("chromedriver", options=options)
 driver.get("https://www.sunearthtools.com/dp/tools/pos_sun.php?lang=fr")
 
 sleep(1)
-
-
 
 
 def config_interval(interval: int) -> None:
@@ -82,10 +81,16 @@ def _select_x(xpath: str, valeur: int) -> None:
 # exemple : config_date(2023, 2, 25, 12, 24) : 25 fev 2023 à 12 h 24
 sleep(1)
 
+if __name__ == '__main__':
+    interval = sys.argv[1]
+    year = sys.argv[2]
+    month = sys.argv[3]
+    date = sys.argv[4]
+
 # configuration d'intervalle de données à récupérer, None = intervalle = 60 mins
-config_interval(5)
+config_interval(interval)
 sleep(1)
-config_date(2023, 2, 25, 12, 24)
+config_date(year, month, date, 12, 24)
 sleep(1)
 # Configuration des coordonnées, les coordonnées d'Apheen sont utilisées. Ne pas le modifiez.
 coord = driver.find_element(By.XPATH, '//*[@id="findLoc"]')
@@ -98,3 +103,5 @@ sleep(1)
 data_web = coord.find_element(By.XPATH, '//*[@id="tabSunHour"]').text
 # print(data_web)
 driver.close()
+
+

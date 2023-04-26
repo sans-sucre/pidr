@@ -4,8 +4,69 @@ import numpy as np
 import matplotlib.pyplot as plt
 from calcul_azimute_hauteur import calcul_azimut_hauteur
 
-file_mes = "Data/data_mes.csv"
-file_ref = "Data/data_ref.csv"
+#file_mes = "Data/data_mes.csv"
+#file_ref = "Data/data_web.csv"
+
+# Calculs sur les coordonées
+
+def calcul_coordonne_translation(x: float, y: float, x_translation: float, y_translation: float):
+    """Cette fonction sert à calculer les coordonnées après la translation"""
+
+    return x + x_translation, y + y_translation
+
+def calcul_coordonne_rotation(x: float, y: float, angle_rotation: float):
+    """Cette fonction sert à calculer les coordonnées après la rotation de certain angle, le paramètre angle_rotation
+     est d'unité degré"""
+
+    angle_rotation = np.deg2rad(angle_rotation)
+    matrice_rotation = np.array([[np.cos(angle_rotation), (-1) * np.sin(angle_rotation)],
+                                 [np.sin(angle_rotation), np.cos(angle_rotation)]])
+    x, y = calcul_coordonne_translation(x, y, -1023.5, -1023.5)
+    r = np.matmul(matrice_rotation, np.array([x, y]))
+    return int(np.rint(r[0] + 1023.5)), int(np.rint(r[1] + 1023.5))
+
+def coordonnes_polaire(x: float, y: float) :
+    """
+    Cette fonction sert à trouver les coordonnées polaires à partir de coordonnées cartésiennes
+    """
+
+    assert (x != 0 or y != 0), "Attention, x et y ne peuvent pas être égaux à 0 en même temps"
+    r = np.sqrt(x ** 2 + y ** 2)
+
+    if x == 0 and y > 0:
+        delta = 90
+    elif x == 0 and y < 0:
+        delta = 270
+    else:
+        delta = np.rad2deg(np.arctan(y / x))
+
+    if x > 0 > y:
+        delta += 180
+    elif x > 0 and y > 0:
+        delta -= 180
+
+    return r, delta
+
+def coordonnees_cartesiennes(r: float, theta: float) :
+    x=r*np.cos(theta)
+    y=r*np.sin(theta)
+    return x,y
+
+
+# Calcul de l'azimut et de la hauteur
+
+def calcul_aziHaut_to_cart(a: float, h: float):
+    """
+    Cette fonction sert à calculer les coordonées x et y du soleil à partir de l'azimut et la hauteur.
+    """
+    f = 512*np.sqrt(2)
+
+    r = f*(1-h/90)
+    theta = a
+
+    x,y= coordonnees_cartesiennes(r,np.deg2rad(theta-90))
+    return x, y
+
 
 # Affichage des courbes
 
@@ -22,7 +83,12 @@ def afficherCourbesRef (nomdefichier : str) :
     
     for m in range (len(data[0])):
         timeList.append(m*5/60)
-        azimutList.append(float(data[0][m]))
+        if (float(data[0][m])>0) :
+            azimutList.append(float(data[0][m])-180)
+        elif (float(data[0][m])<0) :
+            azimutList.append(float(data[0][m])+180)
+        else :
+            azimutList.append(float(data[0][m]))
         elevationList.append(float(data[1][m]))
 
     plt.plot(timeList, azimutList, label = "Azimut")
@@ -52,6 +118,8 @@ def afficherCourbesMes (nomdefichier : str) :
         azimut, hauteur = calcul_azimut_hauteur(float(data[0][m])-1023,float(data[1][m])-1023,90)
 
         azimutList.append(azimut)
+        if (hauteur < 0):
+            hauteur = 0
         elevationList.append(hauteur)
 
     plt.plot(timeList, azimutList, label = "Azimut")
@@ -94,6 +162,10 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
     for m in range (len(dataREF[0])):
         #Partie des données de référence :
         a, h = float(dataREF[0][m]),float(dataREF[1][m])
+        if (a>0) :
+            a = (a-180)
+        elif (a<0) :
+            a = a + 180
         x_ref, y_ref = calcul_aziHaut_to_cart(a,h)
 
         if (x_ref*x_ref + y_ref*y_ref <= 700*700) :
@@ -115,9 +187,9 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
 
 ##afficherCourbesRef(file_ref)
 
-#afficherCourbesMes(file_mes)
+##afficherCourbesMes(file_mes)
 
-##afficherParcours(file_ref,file_mes)
+#afficherParcours(file_ref,file_mes)
 
 if __name__ == '__main__':
     file_ref = sys.argv[1]

@@ -4,8 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from calcul_azimute_hauteur import calcul_azimut_hauteur
 
-#file_mes = "Data/data_mes.csv"
-#file_ref = "Data/data_web.csv"
+file_mes = "Data/data_mes.csv"
+file_ref = "Data/data_ref.csv"
 
 # Affichage des courbes
 
@@ -22,12 +22,7 @@ def afficherCourbesRef (nomdefichier : str) :
     
     for m in range (len(data[0])):
         timeList.append(m*5/60)
-        if (float(data[0][m])>0) :
-            azimutList.append(float(data[0][m])-180)
-        elif (float(data[0][m])<0) :
-            azimutList.append(float(data[0][m])+180)
-        else :
-            azimutList.append(float(data[0][m]))
+        azimutList.append(float(data[0][m]))
         elevationList.append(float(data[1][m]))
 
     plt.plot(timeList, azimutList, label = "Azimut")

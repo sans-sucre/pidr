@@ -8,7 +8,7 @@ import copy
 ##a redéfinir avec les indications du prof
 MAPE_max=0.8
 file_mes = "Data/data_mes.csv"
-file_ref = "Data/data_web.csv"
+file_ref = "Data/data_ref.csv"
 
 
 
@@ -150,8 +150,7 @@ def donne_azimut_hauteur_mesurees(x,y):
     Azimut=[]
     Hauteur=[]
     for k in range(0,len(x)):
-        x_rot,y_rot=calcul_coordonne_rotation(float(x[k]),float(y[k]),90)
-        donnees=calcul_azimut_hauteur(x_rot-1023,y_rot-1023)
+        donnees=calcul_azimut_hauteur(x[k]-1023,y[k]-1023,0)
         Azimut.append(donnees[0])
         Hauteur.append(donnees[1])
     return (Azimut,Hauteur)

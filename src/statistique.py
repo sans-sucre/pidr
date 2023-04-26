@@ -8,7 +8,7 @@ import copy
 ##a redéfinir avec les indications du prof
 MAPE_max=0.8
 file_mes = "Data/data_mes.csv"
-file_ref = "Data/data_ref.csv"
+file_ref = "Data/data_web.csv"
 
 
 

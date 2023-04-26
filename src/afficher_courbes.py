@@ -1,9 +1,10 @@
 import csv
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-file_mes = "Data/data_mes.csv"
-file_ref = "Data/data_web.csv"
+#file_mes = "Data/data_mes.csv"
+#file_ref = "Data/data_web.csv"
 
 
 # Calculs sur les coordonées
@@ -115,7 +116,6 @@ def afficherCourbesRef (nomdefichier : str) :
     plt.savefig("Data/courbeAzElREF.png")
     plt.show()
     
-
 def afficherCourbesMes (nomdefichier : str) :
     """ Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné"""
 
@@ -195,8 +195,15 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
     plt.savefig("Data/parcoursSoleil.png")
     plt.show()
 
-afficherCourbesRef(file_ref)
+##afficherCourbesRef(file_ref)
 
 ##afficherCourbesMes(file_mes)
 
 ##afficherParcours(file_ref,file_mes)
+
+if __name__ == '__main__':
+    file_ref = sys.argv[1]
+    file_mes = sys.argv[2]
+    afficherCourbesRef(file_ref)
+    afficherCourbesMes(file_mes)
+    afficherParcours(file_ref, file_mes)

@@ -88,8 +88,15 @@ python3 affichercourbes.py nomDuFichierDeReference nomDuFichierDeMesure
 nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
 nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
 
-#### Exemples : 
-Pour exécuter 
+#### Obtentiion du décalage : 
+Pour exécuter et obtenir la valeur du décalage :
+
+```bash
+python3 src/statistique.py nomDuFichierDeReference nomDuFichierDeMesure
+```
+nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
+nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
+
 
 ## Pour plus d'information 
 

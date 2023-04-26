@@ -10,7 +10,9 @@ MAPE_max=0.8
 
 
 def donne_moyenne_decalage_azimut():
+
     """"donne la moyenne des ecarts entre les valeurs mesurees et celles de reference, pour effectuer la correction """
+    
     Ecarts=donne_decalage_azimut()
 
     m=0
@@ -24,7 +26,9 @@ def donne_moyenne_decalage_azimut():
 
 
 def donne_decalage_azimut():
+
     """Retourne la liste des decalage pour les differentes valeurs de reference et mesuree, en effectuant un test sur l'erreur quadratique"""
+
     (x,y)=donne_positions_mesurees()
     (AzimutRef,HauteurRef)=donne_azimut_hauteur_theo()
     (AzimutMes,HauteurMes)=donne_azimut_hauteur_mesurees(x,y)
@@ -46,7 +50,9 @@ def donne_decalage_azimut():
 
 
 def valeur_acceptee(AzimutRefCourant,AzimutMesCourant,ValeursPredites,ValeursObservees):
+
     """effectue un test sur les valeurs que l'on va ajouter pour eviter toute valeur aberrante pouvant modifier la callibration"""
+
     Vp=ValeursPredites.copy()
     Vo=ValeursObservees.copy()
 
@@ -103,6 +109,7 @@ def donne_erreur_quadratique(ValeursObservees,ValeursPredites):
 
 def donne_positions_mesurees():
     """donne la liste des coordonnées x et y a partir du fichier data_mes"""
+
     f = open("Depot/data_mes.csv","r")
     donnees = list(csv.reader(f, delimiter=","))
    
@@ -157,6 +164,8 @@ def donne_decalage(a,b):
 
 
 def donne_ecartype():
+
+    """donne l'ecartype pour faire une interprétation des résultats mais ce n'est pas utilisé pour l'instant"""
     moyenne=donne_moyenne_decalage_azimut()
     Ecarts=donne_decalage_azimut()
     m=0

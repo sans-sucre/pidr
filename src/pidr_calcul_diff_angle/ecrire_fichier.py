@@ -39,7 +39,7 @@ def webdata_to_daily_sun_trajectory(webdata: str) -> DailySunTrajectory:
     zero_padding_tail = _zero_padding(1440-time_sunset_minutes)
     azimuth_altitude_pairs = zero_padding_head + azimuth_altitude_pairs + zero_padding_tail
     # print(time_sunrise_minutes,time_sunset_minutes)
-    print(len(azimuth_altitude_pairs))
+    # print(len(azimuth_altitude_pairs))
     return azimuth_altitude_pairs
 
 
@@ -74,7 +74,6 @@ def _time_to_minute(to_convert: str) -> int:
     return minutes
 
 
-
 def export_daily_sun_trajectory_to_csv(
     daily_sun_trajectory: DailySunTrajectory,
 ) -> None:
@@ -83,7 +82,7 @@ def export_daily_sun_trajectory_to_csv(
     altitudes = [altitude for _, altitude in daily_sun_trajectory]
 
     # écrire les données dans le fichier csv, le fichier sorti s'appelle "data_web.csv"
-    with open("../Data/data_web.csv", "w", newline="") as csvfile:
+    with open("../../Data/data_web.csv", "w", newline="") as csvfile:
         writer = csv.writer(
             csvfile, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL
         )
@@ -91,10 +90,3 @@ def export_daily_sun_trajectory_to_csv(
         writer.writerow(azimuths)
 
 
-# transformer les web data sous forme de liste de string
-# azi_scrapper est le programme utilisé pour récupérer des données
-data_traite = webdata_to_daily_sun_trajectory(azi_scrapper.data_web)
-print(data_traite)
-
-# exporter les données sous forme de csv
-export_daily_sun_trajectory_to_csv(data_traite)

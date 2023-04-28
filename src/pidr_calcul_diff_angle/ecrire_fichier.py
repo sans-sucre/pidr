@@ -82,7 +82,7 @@ def export_daily_sun_trajectory_to_csv(
     altitudes = [altitude for _, altitude in daily_sun_trajectory]
 
     # écrire les données dans le fichier csv, le fichier sorti s'appelle "data_web.csv"
-    with open("../../Data/data_web.csv", "w", newline="") as csvfile:
+    with open("Data/data_web.csv", "w", newline="") as csvfile:
         writer = csv.writer(
             csvfile, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL
         )

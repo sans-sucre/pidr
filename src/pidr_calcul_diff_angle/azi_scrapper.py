@@ -86,8 +86,12 @@ def _select_x(xpath: str, valeur: int, driver: WebDriver) -> None:
 
 # configuration de date de données à récupérer, None = valeur par défaut, cf config_date
 # exemple : config_date(2023, 2, 25, 12, 24) : 25 fev 2023 à 12 h 24
-def execute(interval: int,year: int, month: int, day: int) ->str:
+def execute(interval: int, year: int, month: int, day: int) -> str:
     """Exécuter la récupération des données via SunEarthTools
+    @param interval:  valeur en minutes parmi 5,10,15,20,30,60
+    @param year: 1970-2050
+    @param month: 1-12
+    @param day: 1-31
     """
     # configuration d'intervalle de données à récupérer, None = intervalle = 60 mins
     driver = _config_options_webdriver()
@@ -109,5 +113,5 @@ def execute(interval: int,year: int, month: int, day: int) ->str:
     return data_web
 
 
-print(execute(5, 2023, 4 ,1))
+# print(execute(5, 2023, 4 ,1))
 

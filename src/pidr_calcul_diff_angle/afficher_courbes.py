@@ -98,8 +98,8 @@ def afficherCourbesRef (nomdefichier : str) :
     plt.ylabel('Degré de l\'angle')
     plt.title('Evolution de l\'azimut et la hauteur au cours d\'une journée ')
     plt.legend()
-    plt.savefig("Data/courbeAzElREF.png")
-    plt.show()
+    plt.savefig("Images/courbeAzElREF.png")
+    #plt.show()
     
 def afficherCourbesMes (nomdefichier : str) :
     """ Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné"""
@@ -129,8 +129,8 @@ def afficherCourbesMes (nomdefichier : str) :
     plt.ylabel('Degré de l\'angle')
     plt.title('Evolution de l\'azimut et la hauteur au cours d\'une journée ')
     plt.legend()
-    plt.savefig("Data/courbeAzElMES.png")
-    plt.show()
+    plt.savefig("Images/courbeAzElMES.png")
+    # plt.show()
 
 def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
     """ Cette fonction affiche le parcours du soleil à l'aide de fichiers de REF (contenant des azimuts et hauteurs) et un fichier MES (contenant des coordonnées x et y). """
@@ -182,8 +182,8 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
 
     plt.title('Parcours du soleil au cours d\'une journée ')
     plt.legend()
-    plt.savefig("Data/parcoursSoleil.png")
-    plt.show()
+    plt.savefig("Images/parcoursSoleil.png")
+    # plt.show()
 
 ##afficherCourbesRef(file_ref)
 
@@ -191,9 +191,9 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
 
 #afficherParcours(file_ref,file_mes)
 
-if __name__ == '__main__':
-    file_ref = sys.argv[1]
-    file_mes = sys.argv[2]
-    afficherCourbesRef(file_ref)
-    afficherCourbesMes(file_mes)
-    afficherParcours(file_ref, file_mes)
+#if __name__ == '__main__':
+#    file_ref = sys.argv[1]
+#    file_mes = sys.argv[2]
+#    afficherCourbesRef(file_ref)
+#    afficherCourbesMes(file_mes)
+#    afficherParcours(file_ref, file_mes)

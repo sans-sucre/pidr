@@ -16,6 +16,8 @@ def coordonnes_polaire(x: float, y: float):
     """
 
     assert (x != 0 or y != 0), "Attention, x et y ne peuvent pas être égaux à 0 en même temps"
+
+
     r = np.sqrt(x ** 2 + y ** 2)
 
     if x == 0 and y > 0:

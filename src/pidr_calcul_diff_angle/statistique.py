@@ -29,9 +29,28 @@ def donne_moyenne_decalage_azimut():
 
 
 
+def donne_moyenne_decalage_azimut_corrige(MAPE_max):
+
+    """"donne la moyenne des ecarts entre les valeurs mesurees et celles de reference, pour effectuer la correction apres 
+    suppression des valeurs aberrantes (utilisation de l'erreur absolue moyenne ) """
+
+    Ecarts=donne_decalage_azimut_corrige(MAPE_max)
+
+    m=0
+    for k in range(0,len(Ecarts)):
+        m=m+Ecarts[k]
+    if len(Ecarts)==0:
+        return 0
+    else :
+        return m/len(Ecarts)
+
+
+
+
+
 def donne_decalage_azimut():
 
-    """Retourne la liste des decalage pour les differentes valeurs de reference et mesuree, en effectuant un test sur l'erreur quadratique"""
+    """Retourne la liste des decalage pour les differentes valeurs de reference et mesuree, en enlevant les valeurs de nuit"""
 
     (x,y)=donne_positions_mesurees()
     (AzimutRef,HauteurRef)=donne_azimut_hauteur_theo(file_ref)
@@ -43,13 +62,39 @@ def donne_decalage_azimut():
 
     for k in range(0,len(AzimutRef)):
             
-            if valeur_acceptee_MAPE(AzimutRef[k],AzimutMes[k],ValeursPredites,ValeursObservees):
+            if valeur_acceptee(AzimutRef[k],AzimutMes[k],ValeursPredites,ValeursObservees):
                 Decalage.append(donne_decalage(AzimutRef[k],AzimutMes[k]))
                 ValeursPredites.append(AzimutRef[k])
                 ValeursObservees.append(AzimutMes[k])
     
 
     return Decalage
+
+
+
+
+def donne_decalage_azimut_corrige(MAPE_max):
+
+    """Retourne la liste des decalage pour les differentes valeurs de reference et mesuree, en effectuant un test sur l'erreur absolue moyenne"""
+
+    (x,y)=donne_positions_mesurees()
+    (AzimutRef,HauteurRef)=donne_azimut_hauteur_theo(file_ref)
+    (AzimutMes,HauteurMes)=donne_azimut_hauteur_mesurees(x,y)
+    Decalage=[]
+    ValeursPredites=[]
+    ValeursObservees=[]
+   
+
+    for k in range(0,len(AzimutRef)):
+            
+            if valeur_acceptee_MAPE(AzimutRef[k],AzimutMes[k],ValeursPredites,ValeursObservees,MAPE_max):
+                Decalage.append(donne_decalage(AzimutRef[k],AzimutMes[k]))
+                ValeursPredites.append(AzimutRef[k])
+                ValeursObservees.append(AzimutMes[k])
+    
+
+    return Decalage
+
 
 
 
@@ -71,10 +116,11 @@ def valeur_acceptee(AzimutRefCourant,AzimutMesCourant,ValeursPredites,ValeursObs
 
         return True
     
-def valeur_acceptee_MAPE(AzimutRefCourant,AzimutMesCourant,ValeursPredites,ValeursObservees):
+def valeur_acceptee_MAPE(AzimutRefCourant,AzimutMesCourant,ValeursPredites,ValeursObservees,MAPE_max):
 
-    """effectue un test sur les valeurs que l'on va ajouter pour eviter toute valeur aberrante pouvant modifier la callibration"""
-
+    """effectue un test sur les valeurs que l'on va ajouter pour eviter toute valeur aberrante pouvant modifier la callibration en utilisant l'erreur moyenne absolue  """
+    
+    
     Vp=ValeursPredites.copy()
     Vo=ValeursObservees.copy()
 
@@ -84,15 +130,15 @@ def valeur_acceptee_MAPE(AzimutRefCourant,AzimutMesCourant,ValeursPredites,Valeu
     if (AzimutRefCourant == 0) or(AzimutMesCourant== 0):
         return False
     
-
-    ErreurQuadratique=donne_erreur_moyenne_absolue(Vo,Vp)
-
-    if ErreurQuadratique >=MAPE_max :
-        return False
-    
     else:
+        ErreurQuadratique=donne_erreur_moyenne_absolue(Vo,Vp)
 
-        return True
+        if ErreurQuadratique >=MAPE_max :
+            return False
+        
+        else:
+
+            return True
     
 
 
@@ -199,7 +245,7 @@ def donne_ecartype():
 
 
 
-def modelisation_correcte():
+def modelisation_correcte(seuil_modelisation):
  
     """permet de tester si la modélisation et correcte en calculant l'erreur moyenne et verifiant si elle est inferieur à 0 pourcent .
     En entree il y a le fichier de donnees du web et le fichier de donnees de la modelisation que l'on veut comparer 
@@ -211,9 +257,10 @@ def modelisation_correcte():
     erreur_azimut=0
     erreur_hauteur=0
     for k in range(0,len(azimut_mod)):
-        erreur_azimut+=azimut_web[k]-azimut_mod[k]
-        erreur_hauteur+=hauteur_web[k]- hauteur_mod[k]
+        erreur_azimut+=abs(azimut_web[k]-azimut_mod[k])
+        erreur_hauteur+=abs(hauteur_web[k]-hauteur_mod[k])
 
+        
     if len(azimut_mod)>0:
         erreur_azimut=erreur_azimut/len(azimut_mod)
         erreur_hauteur=erreur_hauteur/len(azimut_mod)
@@ -222,25 +269,43 @@ def modelisation_correcte():
     print(f"erreur sur la hauteur :{erreur_hauteur}")
 
     if (erreur_azimut>seuil_modelisation or erreur_hauteur>seuil_modelisation):
-        print("La modélisation n'est pas correcte")
+        s="La modélisation n'est pas correcte"
     else :
-        print("La modélisation est correcte")
+        s="La modélisation est correcte"
 
-    return
-
-
-
-
-
-print(donne_moyenne_decalage_azimut())
+    return s
 
 
 
 
 if __name__ == '__main__':
-    if len(sys.argv)>=2:
-       file_ref = sys.argv[1]
-       file_mes = sys.argv[2]
+    if len(sys.argv)>=4:
+       
+        print(sys.argv[1])
+        if sys.argv[1]=="-modelisation": 
+            file_ref = sys.argv[2]
+            file_mes = sys.argv[3]
+            if len(sys.argv)>=6 and sys.argv[4]=="-niveau": 
+                seuil_modelisation=float(sys.argv[5])
+                print(modelisation_correcte(seuil_modelisation))
+            else:
+                print(modelisation_correcte(0.5))
+
+
+        if sys.argv[1]=="-decalage":
+        
+            file_ref = sys.argv[2]
+            file_mes = sys.argv[3]
+            if len(sys.argv)>=6 and sys.argv[4]=="-correction":
+                MAPE_max=float(sys.argv[5])
+            
+                print(donne_moyenne_decalage_azimut_corrige(MAPE_max))
+
+            else:
+               
+                print(donne_moyenne_decalage_azimut())
+
+    else: print("Veuillez renseignez tous les paramètres. Tapez '-info' pour plus d'aide")
 
 
 

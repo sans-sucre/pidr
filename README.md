@@ -2,6 +2,23 @@
 
 Développement d’un système de calibration automatisé hauteur-azimut en fonction de la position solaire à partir d’une caméra équipée d’un objectif à champ de vision hémisphérique connectée à un Raspberry PI B4.
 
+## Table des matières
+
+<!-- TOC -->
+* [Pidr_callibration_2023](#pidrcallibration2023)
+  * [Table des matières](#table-des-matières)
+  * [Éditeurs](#éditeurs)
+  * [Fonctionnalités](#fonctionnalités)
+  * [Prérequis](#prérequis)
+  * [Installation](#installation)
+  * [Usage/Examples](#usageexamples)
+      * [Instructions générales :](#instructions-générales--)
+      * [Récupération des données depuis SunEarthTools :](#récupération-des-données-depuis-sunearthtools--)
+      * [Visualisation des données :](#visualisation-des-données--)
+      * [Obtentiion du décalage :](#obtentiion-du-décalage--)
+  * [Pour plus d'information](#pour-plus-dinformation-)
+<!-- TOC -->
+
 
 ## Éditeurs
 
@@ -89,13 +106,34 @@ nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pi
 nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
 
 #### Obtentiion du décalage : 
-Pour exécuter et obtenir la valeur du décalage :
+Pour exécuter et obtenir la valeur du décalage sans correction sur les valeurs aberrantes :
 
 ```bash
-python3 src/statistique.py nomDuFichierDeReference nomDuFichierDeMesure
+python3 src/pidr_calcul_diff_angle/statistique.py -decalage nomDuFichierDeReference  nomDuFichierDeMesure
 ```
 nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
 nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
+
+
+Pour exécuter et obtenir la valeur du décalage avec une correction :
+
+```bash
+python3 src/pidr_calcul_diff_angle/statistique.py -decalage nomDuFichierDeReference  nomDuFichierDeMesure -correction  EMA
+```
+nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
+nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
+EMA: valeur de l'erreur moyenne absolue pour supprimer de points
+
+
+## Vérifier la concordance entre modélisation et valeurs réelles
+
+Pour exécuter et obtenir l'ecart moyen en fixant la valeur du seuil
+```bash
+python3 python3 src/pidr_calcul_diff_angle/statistique.py -modelisation  nomDuFichierDeReference nomDuFichierDeMesure  -niveau Seuil
+```
+nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
+nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
+Seuil: Le niveau seuil pour valider ou invalider la justesse de la modélisation
 
 
 ## Pour plus d'information 

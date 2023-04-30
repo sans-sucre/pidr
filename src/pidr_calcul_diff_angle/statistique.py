@@ -1,7 +1,5 @@
 import numpy as np
 from math import *
-
-from afficher_courbes import *
 import csv
 from math import *
 
@@ -86,7 +84,6 @@ def donne_decalage_azimut_corrige(fichier1, fichier2, mape_max):
 
     return decalage
 
-    return Decalage
 
 def valeur_acceptee(azimut_ref_courant, azimut_mes_courant, valeurs_predites, valeurs_observees):
     """Effectuer un test sur les valeurs que l'on
@@ -127,7 +124,6 @@ def valeur_acceptee_MAPE(azimut_ref_courant, azimut_mes_courant, valeurs_predite
 
             return True
     
-
 
 def donne_erreur_moyenne_absolue(valeurs_observees, valeurs_predites):
     """calcule l'erreur absolue moyenne"""
@@ -233,31 +229,3 @@ def modelisation_correcte(fichier1, fichier2, seuil_modelisation):
     return s
 
 
-if __name__ == '__main__':
-    if len(sys.argv) >= 4:
-
-        print(sys.argv[1])
-        if sys.argv[1] == "-modelisation":
-            file_ref = sys.argv[2]
-            file_mes = sys.argv[3]
-            if len(sys.argv) >= 6 and sys.argv[4] == "-niveau":
-                seuil_modelisation = float(sys.argv[5])
-                print(modelisation_correcte(file_ref, file_mes, seuil_modelisation))
-            else:
-                print(modelisation_correcte(file_ref, file_mes, 0.5))
-
-        if sys.argv[1] == "-decalage":
-
-            file_ref = sys.argv[2]
-            file_mes = sys.argv[3]
-            if len(sys.argv) >= 6 and sys.argv[4] == "-correction":
-                mape_max = float(sys.argv[5])
-
-                print(donne_moyenne_decalage_azimut_corrige(file_ref, file_mes, mape_max))
-
-            else:
-
-                print(donne_moyenne_decalage_azimut(file_ref, file_mes))
-
-    else:
-        print("Veuillez renseigner tous les paramètres. Tapez '-info' pour plus d'aide")

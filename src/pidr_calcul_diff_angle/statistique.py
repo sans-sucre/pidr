@@ -1,7 +1,7 @@
 import numpy as np
 from math import *
 
-from src.pidr_calcul_diff_angle.afficher_courbes import *
+from afficher_courbes import *
 import csv
 import copy
 
@@ -10,6 +10,7 @@ MAPE_max=0.9
 seuil_modelisation=0.1
 file_mes = "Data/data_mes.csv"
 file_ref = "Data/data_ref.csv"
+
 
 
 

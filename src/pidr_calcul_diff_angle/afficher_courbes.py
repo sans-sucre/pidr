@@ -2,7 +2,7 @@ import csv
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-from src.pidr_calcul_diff_angle.calcul_azimute_hauteur import calcul_azimut_hauteur
+from calcul_azimute_hauteur import calcul_azimut_hauteur
 
 #file_mes = "Data/data_mes.csv"
 #file_ref = "Data/data_web.csv"

@@ -105,35 +105,36 @@ python3 affichercourbes.py nomDuFichierDeReference nomDuFichierDeMesure
 nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
 nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
 
-#### Obtentiion du décalage : 
+#### Obtention du décalage : 
 Pour exécuter et obtenir la valeur du décalage sans correction sur les valeurs aberrantes :
 
 ```bash
-python3 src/pidr_calcul_diff_angle/statistique.py -decalage nomDuFichierDeReference  nomDuFichierDeMesure
+python3 src/pidr_calcul_diff_angle/statistique.py nom_fichier_reference nom_fichier_mesuree 
 ```
-nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
-nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
+nom_fichier_reference : son chemin à partir du parcours relatif du fichier pidr 
+nom_fichier_mesuree  : son chemin à partir du parcours relatif du fichier pidr 
 
 
 Pour exécuter et obtenir la valeur du décalage avec une correction :
 
 ```bash
-python3 src/pidr_calcul_diff_angle/statistique.py -decalage nomDuFichierDeReference  nomDuFichierDeMesure -correction  EMA
+python3 src/pidr_calcul_diff_angle/statistique.py -decalage nom_fichier_reference  nom_fichier_mesuree -correction  ema
 ```
-nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
-nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
-EMA: valeur de l'erreur moyenne absolue pour supprimer de points
+
+nom_fichier_reference  : son chemin à partir du parcours relatif du fichier pidr 
+nom_fichier_mesuree : son chemin à partir du parcours relatif du fichier pidr 
+ema: valeur de l'erreur moyenne absolue pour supprimer de points
 
 
 ## Vérifier la concordance entre modélisation et valeurs réelles
 
 Pour exécuter et obtenir l'ecart moyen en fixant la valeur du seuil
 ```bash
-python3 python3 src/pidr_calcul_diff_angle/statistique.py -modelisation  nomDuFichierDeReference nomDuFichierDeMesure  -niveau Seuil
+python3 python3 src/pidr_calcul_diff_angle/statistique.py -modelisation  nom_fichier_reference nom_fichier_mesuree  -niveau seuil
 ```
-nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
-nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
-Seuil: Le niveau seuil pour valider ou invalider la justesse de la modélisation
+nom_fichier_reference : son chemin à partir du parcours relatif du fichier pidr 
+nom_fichier_mesuree : son chemin à partir du parcours relatif du fichier pidr 
+seuil: Le niveau seuil pour valider ou invalider la justesse de la modélisation
 
 
 ## Pour plus d'information 

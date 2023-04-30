@@ -1,3 +1,7 @@
+import numpy as np
+from math import *
+
+from afficher_courbes import *
 import csv
 from math import *
 
@@ -82,6 +86,7 @@ def donne_decalage_azimut_corrige(fichier1, fichier2, mape_max):
 
     return decalage
 
+    return Decalage
 
 def valeur_acceptee(azimut_ref_courant, azimut_mes_courant, valeurs_predites, valeurs_observees):
     """Effectuer un test sur les valeurs que l'on
@@ -121,13 +126,15 @@ def valeur_acceptee_MAPE(azimut_ref_courant, azimut_mes_courant, valeurs_predite
         else:
 
             return True
+    
 
 
 def donne_erreur_moyenne_absolue(valeurs_observees, valeurs_predites):
     """calcule l'erreur absolue moyenne"""
     erreur = 0
     for k in range(0, len(valeurs_observees)):
-        erreur = erreur + (abs(valeurs_observees[k] - valeurs_predites[k]) / abs(valeurs_observees[k]))
+        if valeurs_observees[k] != 0:
+            erreur = erreur + (abs(valeurs_observees[k] - valeurs_predites[k]) / abs(valeurs_observees[k]))
 
     if len(valeurs_observees) == 0:
         return 0

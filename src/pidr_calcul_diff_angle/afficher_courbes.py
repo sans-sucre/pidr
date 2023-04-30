@@ -98,8 +98,8 @@ def afficher_courbes_ref(nom_fichier: str):
             azimut_list.append(float(data[0][m]))
         elevation_list.append(float(data[1][m]))
 
-    plt.plot(time_list, azimut_list, label="Azimut")
-    plt.plot(time_list, elevation_list, label="Hauteur")
+    plt.plot(time_list, azimut_list, label="Azimut théorique")
+    plt.plot(time_list, elevation_list, label="Hauteur théorique")
 
     plt.xlabel('Heure de la journée')
     plt.ylabel('Degré de l\'angle')
@@ -131,8 +131,8 @@ def afficher_courbes_mes(nom_fichier: str):
             hauteur = 0
         elevation_list.append(hauteur)
 
-    plt.plot(time_list, azimut_list, label="Azimut")
-    plt.plot(time_list, elevation_list, label="Hauteur")
+    plt.plot(time_list, azimut_list, label="Azimut mesuré")
+    plt.plot(time_list, elevation_list, label="Hauteur mesurée")
 
     plt.xlabel('Heure de la journée')
     plt.ylabel('Degré de l\'angle')

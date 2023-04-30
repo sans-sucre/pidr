@@ -69,7 +69,7 @@ def decalage(ref, mes) -> None:
 @click.option("-j", default=1, help="Jour de donnée à récupérer via SunEarthTools, 1-31")
 @click.option("-n", default=0.5, help="Niveau de correction, par défaut, sa valeur est 0.5")
 @click.option("-s", default=0.8, help="Seuil de modélisation, par défaut, sa valeur est 0.8")
-def all(i, a, m, j, n, s) -> None:
+def tout(i, a, m, j, n, s) -> None:
     data_web = scrap.execute(i, a, m, j)
     # transformer les web data sous forme de liste de string
     data_traite = ecrire.webdata_to_daily_sun_trajectory(data_web)

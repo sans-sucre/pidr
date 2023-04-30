@@ -11,6 +11,8 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
+import chromedriver_binary
+#  pip install chromedriver_binary==108.0.5359.71.0
 
 
 def _config_options_webdriver() -> WebDriver:

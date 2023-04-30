@@ -1,7 +1,7 @@
 import numpy as np
 from math import *
 
-from afficher_courbes import *
+from src.pidr_calcul_diff_angle.afficher_courbes import *
 import csv
 import copy
 

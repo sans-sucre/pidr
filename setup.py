@@ -26,6 +26,7 @@ setup(
         "constantly==15.1.0",
         "contourpy==1.0.7",
         "cryptography==39.0.1",
+        "chromedriver-binary==108.0.5359.71.0",
         "cssselect==1.2.0",
         "cycler==0.11.0",
         "docutils==0.19",
@@ -61,6 +62,7 @@ setup(
         "pyOpenSSL==23.0.0",
         "pyparsing==3.0.9",
         "PySocks==1.7.1",
+        "pytest==7.3.1",
         "python-dateutil==2.8.2",
         "pytz==2022.7.1",
         "queuelib==1.6.2",
@@ -85,8 +87,8 @@ setup(
         "zope.interface==5.5.2"
 
     ],
-    packages=find_packages(),
+    packages=["src/pidr_calcul_diff_angle"],
     include_package_data=True,
-    python_requires="==3.10",
+    python_requires=">=3.10",
 
 )

@@ -4,7 +4,7 @@ depuis internet et l'exporter dans un fichier 'data_web.csv'
 """
 import csv
 
-import azi_scrapper
+import src.pidr_calcul_diff_angle.azi_scrapper
 
 HorizontalCoordinate = tuple[float, float]
 DailySunTrajectory = list[HorizontalCoordinate]

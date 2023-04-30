@@ -150,7 +150,8 @@ def donne_erreur_moyenne_absolue(ValeursObservees,ValeursPredites):
     """calcule l'erreur absolue moyenne"""
     erreur=0
     for k in range(0,len(ValeursObservees)):
-        erreur=erreur+(abs(ValeursObservees[k]-ValeursPredites[k])/abs(ValeursObservees[k]))
+        if ValeursObservees[k]!=0:
+            erreur=erreur+(abs(ValeursObservees[k]-ValeursPredites[k])/abs(ValeursObservees[k]))
 
     if len(ValeursObservees)==0:
         return 0
@@ -300,5 +301,5 @@ if __name__ == '__main__':
 
 
 
-
+print(donne_erreur_moyenne_absolue([0,0,0,0],[4,4,4,4]))
 

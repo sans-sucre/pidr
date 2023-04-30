@@ -86,8 +86,8 @@ setup(
         "zope.interface==5.5.2"
 
     ],
-    packages=find_packages(),
+    packages=["src/pidr_calcul_diff_angle"],
     include_package_data=True,
-    python_requires="==3.10",
+    python_requires=">=3.10",
 
 )

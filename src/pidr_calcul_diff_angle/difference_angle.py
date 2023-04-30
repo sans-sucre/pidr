@@ -2,8 +2,8 @@ import csv
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-from afficher_courbes import calcul_coordonne_rotation
-from calcul_azimute_hauteur import calcul_azimut_hauteur
+from src.pidr_calcul_diff_angle.afficher_courbes import calcul_coordonne_rotation
+from src.pidr_calcul_diff_angle.calcul_azimute_hauteur import calcul_azimut_hauteur
 
 file_mes = "Data/data_mes.csv"
 file_ref = "Data/data_web.csv"

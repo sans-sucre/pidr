@@ -47,7 +47,7 @@ def afficher_histogramme(data):
 
 
 def histogramme_test():
-    lines = lire_fichier("Data/data.txt")
+    lines = lire_fichier("Data/data_ref.txt")
     data_test = reformer_donnees(lines)
     afficher_histogramme2(data_test)
 
@@ -77,4 +77,4 @@ def afficher_histogramme2(data):
     plt.show()
 
 
-# histogramme_test()
+histogramme_test()

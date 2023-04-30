@@ -19,10 +19,10 @@ def scrapper(i, a, m, j) -> None:
     # exporter les données sous forme de csv
     ecrire.export_daily_sun_trajectory_to_csv(data_traite)
     # afficher courbe
-    afficher.afficherCourbesRef("Data/data_web.csv")
-    afficher.afficherCourbesMes("Data/data_mes.csv")
+    afficher.afficher_courbes_ref("Data/data_web.csv")
+    afficher.afficher_courbes_mes("Data/data_mes.csv")
 
-    afficher.afficherParcours("Data/data_web.csv", "Data/data_mes.csv")
+    afficher.afficher_parcours("Data/data_web.csv", "Data/data_mes.csv")
 
     #vérifie si la modélisation est correcte enn affichant l'erreur moyenne sur les valeurs d'azimut et de hauteur 
 

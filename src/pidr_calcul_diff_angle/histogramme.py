@@ -24,8 +24,7 @@ def reformer_donnees(donnees) :
     return donnees_reforme
 
 
-
-def afficher_histogramme(data) :
+def afficher_histogramme(data):
     """Cette fonction sert à afficher un histogramme à partir d'une liste qui est constituée par des tuples."""
     liste_azimut = []
     liste_hauteur = []
@@ -48,13 +47,13 @@ def afficher_histogramme(data) :
 
 
 def histogramme_test():
-    lines = lire_fichier("../Data/data.txt")
+    lines = lire_fichier("Data/data.txt")
     data_test = reformer_donnees(lines)
     afficher_histogramme2(data_test)
 
 
-#pour afficher la proportion des deux jeux de données dans deux figures et améliorer la visualisation
-def afficher_histogramme2(data) :
+# pour afficher la proportion des deux jeux de données dans deux figures et améliorer la visualisation
+def afficher_histogramme2(data):
     """Cette fonction sert à afficher un histogramme à partir d'une liste qui est constituée par des tuples."""
     liste_azimut = []
     liste_hauteur = []
@@ -78,4 +77,4 @@ def afficher_histogramme2(data) :
     plt.show()
 
 
-histogramme_test()
+# histogramme_test()

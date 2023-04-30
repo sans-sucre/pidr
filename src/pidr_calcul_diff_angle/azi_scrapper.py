@@ -29,6 +29,7 @@ def _config_options_webdriver() -> WebDriver:
     sleep(1)
     return driver
 
+
 def _config_interval(interval: int, driver: WebDriver) -> None:
     """
     Configure les intervalles de mesure. Par défaut, l'intervalle est de 60 minutes.

@@ -71,65 +71,65 @@ def calcul_aziHaut_to_cart(a: float, h: float):
 # Affichage des courbes
 
 def afficherCourbesRef (nomdefichier : str) :
-    """ Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné"""
+    """ Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné, contenant en première ligne les azimuts et en deuxième les hauteurs."""
 
     file = open(nomdefichier,"r")
     data = list(csv.reader(file, delimiter=","))
     file.close()
 
-    azimutList = []
-    elevationList = []
-    timeList = []
+    azimut_list = []
+    elevation_list = []
+    time_list = []
     
     for m in range (len(data[0])):
-        timeList.append(m*5/60)
+        time_list.append(m*5/60)
         if (float(data[0][m])>0) :
-            azimutList.append(float(data[0][m])-180)
+            azimut_list.append(float(data[0][m])-180)
         elif (float(data[0][m])<0) :
-            azimutList.append(float(data[0][m])+180)
+            azimut_list.append(float(data[0][m])+180)
         else :
-            azimutList.append(float(data[0][m]))
-        elevationList.append(float(data[1][m]))
+            azimut_list.append(float(data[0][m]))
+        elevation_list.append(float(data[1][m]))
 
-    plt.plot(timeList, azimutList, label = "Azimut")
-    plt.plot(timeList, elevationList, label = "Hauteur")
+    plt.plot(time_list, azimut_list, label = "Azimut")
+    plt.plot(time_list, elevation_list, label = "Hauteur")
     
     plt.xlabel('Heure de la journée')
     plt.ylabel('Degré de l\'angle')
-    plt.title('Evolution de l\'azimut et la hauteur au cours d\'une journée ')
+    plt.title('Evolution de l\'azimut et la hauteur')
     plt.legend()
-    plt.savefig("Images/courbeAzElREF.png")
+    plt.savefig("Images/azimutHauteurFichierRef.png")
     #plt.show()
     
 def afficherCourbesMes (nomdefichier : str) :
-    """ Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné"""
+    """ Cette fonction affiche la courbe mettant en avant l'azimut et la hauteur dans un fichier csv donné, contenant en première ligne les x et en deuxième les y."""
 
     file = open(nomdefichier,"r")
     data = list(csv.reader(file, delimiter=","))
     file.close()
 
-    azimutList = []
-    elevationList = []
-    timeList = []
+    azimut_list = []
+    elevation_list = []
+    time_list = []
 
     for m in range (len(data[0])):
-        timeList.append(m*5/60)
+        time_list.append(m*5/60)
 
         azimut, hauteur = calcul_azimut_hauteur(float(data[0][m])-1023,float(data[1][m])-1023,90)
 
-        azimutList.append(azimut)
+        azimut_list.append(azimut)
         if (hauteur < 0):
             hauteur = 0
-        elevationList.append(hauteur)
+        elevation_list.append(hauteur)
 
-    plt.plot(timeList, azimutList, label = "Azimut")
-    plt.plot(timeList, elevationList, label = "Hauteur")
+    plt.plot(time_list, azimut_list, label = "Azimut")
+    plt.plot(time_list, elevation_list, label = "Hauteur")
     
     plt.xlabel('Heure de la journée')
     plt.ylabel('Degré de l\'angle')
-    plt.title('Evolution de l\'azimut et la hauteur au cours d\'une journée ')
+    plt.title('Evolution de l\'azimut et la hauteur')
     plt.legend()
-    plt.savefig("Images/courbeAzElMES.png")
+    plt.savefig("Images/azimutHauteurFichierMesures.png")
     # plt.show()
 
 def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
@@ -143,11 +143,11 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
     dataREF = list(csv.reader(fileREF, delimiter=","))
     fileREF.close()
 
-    xListMES = []
-    yListMES = []
+    x_list_mes = []
+    y_list_mes = []
 
-    xListREF = []
-    yListREF = []
+    x_list_ref = []
+    y_list_ref = []
 
     for m in range (len(dataMES[0])):
         #Partie des données mesurées
@@ -156,8 +156,8 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
         y=y-1023
 
         if (x*x + y*y <= 700*700) :
-            xListMES.append(x)
-            yListMES.append(y)
+            x_list_mes.append(x)
+            y_list_mes.append(y)
 
     for m in range (len(dataREF[0])):
         #Partie des données de référence :
@@ -169,18 +169,18 @@ def afficherParcours (nomdefichierREF : str, nomdefichierMES : str) :
         x_ref, y_ref = calcul_aziHaut_to_cart(a,h)
 
         if (x_ref*x_ref + y_ref*y_ref <= 700*700) :
-            xListREF.append(x_ref)
-            yListREF.append(y_ref)
+            x_list_ref.append(x_ref)
+            y_list_ref.append(y_ref)
 
     plt.figure(figsize=(7,7))
-    plt.plot(xListMES, yListMES, label = "Valeurs Mesurées")
-    plt.plot(xListREF, yListREF, label = "Valeurs Théoriques")
+    plt.plot(x_list_mes, y_list_mes, label = "Valeurs Mesurées")
+    plt.plot(x_list_ref, y_list_ref, label = "Valeurs Théoriques")
     plt.plot(700*np.cos(np.linspace(0,2*np.pi,150)), 700*np.sin(np.linspace(0,2*np.pi,150)))
 
     plt.xlim(-800,800)
     plt.ylim(-800,800)
 
-    plt.title('Parcours du soleil au cours d\'une journée ')
+    plt.title('Parcours du soleil')
     plt.legend()
     plt.savefig("Images/parcoursSoleil.png")
     # plt.show()

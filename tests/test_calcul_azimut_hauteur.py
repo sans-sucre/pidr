@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 
-import src.calcul_azimute_hauteur as calcul
+import src.pidr_calcul_diff_angle.calcul_azimute_hauteur as calcul
 
 
 class TestCalculAzimutHauteur(unittest.TestCase):

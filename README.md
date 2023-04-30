@@ -36,33 +36,11 @@ Développement d’un système de calibration automatisé hauteur-azimut en fonc
 
 
 ## Prérequis
-Pour assurer le bon fonctionnement du projet, il faut avoir python de version 3.10, le module Selenium, et le navigateur Chrome installés sur votre machine.
+Pour assurer le bon fonctionnement du projet, il faut avoir python de version supérieure à 3.10, également gestionnaire de packages pour Python "pip".
 
 **Python3.10:**
 
 https://www.python.org/downloads/release/python-3100/
-
-
-**selenium:** 
-```bash
-pip install selenium
-```
-
-**numpy:**
-```bash
-pip install numpy
-```
-
-**matplotlib:**
-```bash
-python -m pip install -U pip
-python -m pip install -U matplotlib
-```
-
-**csv:**
-```bash
-pip install python-csv
-```
 
 ## Installation
 
@@ -70,40 +48,44 @@ Cloner notre projet depuis github :
 ```bash
 git clone https://gitlab.telecomnancy.univ-lorraine.fr/Wenjia.Tang/pidr.git
 ```
+###  Configuration d'environnement virtuel
+
+
+Pour installer notre projet sans interférer avec les packages déjà installés globalement, il est conseillé d'utiliser un environnement virtuel :
+ 1) Ouvrez un terminal ou une invite de commande.
+ 2) Naviguez vers le dossier racine de votre projet.
+ 3) Créez un nouvel environnement virtuel en exécutant la commande suivante :
+    ```bash
+    python3 -m venv env
+    ```
+ 4) Activez l'environnement virtuel en exécutant la commande suivante :
+    
+    Sur Linux/Mac :  
+    ```bash
+    source env/bin/activate
+    ```
+    Sur Windows :
+    ```bash
+    env\Scripts\activate.bat
+    ```
+ 5) Vous pouvez maintenant installer les packages à notre projet dans cet environnement virtuel à l'aide de pip.
+ ### Installation des packages nécessaires
+Pour installer les packages nécessaires pour exécuter notre projet, il vous faut exécuter la ligne de commande suivante sur votre terminal : 
+  ```bash
+  pip install -e .
+  ```
 
 ## Usage/Examples
 
-####  Instructions générales : 
+####  Instructions générales :
+Pour exécuter le projet dans votre terminal, vous pouvez exécuter : 
 ```bash
-cd src
-python3 nom_programme.py 
+python src/pidr_calcul_diff_angle -a $(ANNEE) -m $(MOIS) -j $(JOUR) 
 ```
-#### Récupération des données depuis SunEarthTools : 
-- Pour se déplacer dans le répertoire src : 
-```bash
-cd src
-```
-- Pour relever des données : 
-```bash
-python3 azi_scrapper.py interval année mois date
-```
-Ici la valeur d'interval peut être 5,10,15,20,30,60
-- Pour relever et exporter les données sous forme de fichier csv : 
-```bash
-python3 ecrire_fichier.py 
-```
-#### Visualisation des données : 
+$(ANNEE)  $(MOIS) et $(JOUR) sont à remplacer par les valeurs correspondantes, ils signifient le jour (l'année, le mois et le jour) duquel les données théoriques (les valeurs d'azimut et de hauteur) à récupérer depuis [SunEarthTools]((https://www.sunearthtools.com/))   
+Les courbes : todo blabla
 
-- Pour visualiser les données il faut être dans le repertoire pidr. Si vous êtes dans le répertoire src, faites : 
-```bash
-cd ..
-```
-- Pour enregistrer les courbes : 
-```bash
-python3 affichercourbes.py nomDuFichierDeReference nomDuFichierDeMesure
-```
-nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pidr 
-nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
+
 
 #### Obtentiion du décalage : 
 Pour exécuter et obtenir la valeur du décalage sans correction sur les valeurs aberrantes :
@@ -125,7 +107,7 @@ nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr
 EMA: valeur de l'erreur moyenne absolue pour supprimer de points
 
 
-## Vérifier la concordance entre modélisation et valeurs réelles
+### Vérifier la concordance entre modélisation et valeurs réelles
 
 Pour exécuter et obtenir l'ecart moyen en fixant la valeur du seuil
 ```bash
@@ -135,6 +117,17 @@ nomDuFichierDeReference : son chemin à partir du parcours relatif du fichier pi
 nomDuFichierDeMesure : son chemin à partir du parcours relatif du fichier pidr 
 Seuil: Le niveau seuil pour valider ou invalider la justesse de la modélisation
 
+### Help
+Pour avoir plus d'informations concernant aux lignes de commandes, vous pouvez utiliser help :
+```bash
+python src/pidr_calcul_diff_angle --help
+```
+
+## Tests
+Des tests unitaires sont également à votre disposition, pour exécuter les tests, il faut tout simplement exécuter la ligne de commande suivante :
+```bash
+pytest
+```
 
 ## Pour plus d'information 
 

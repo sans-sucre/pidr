@@ -1,6 +1,7 @@
 """Interface utilisateur"""
 import click
-import statistique
+
+import src.pidr_calcul_diff_angle.statistique as statistique
 import src.pidr_calcul_diff_angle.azi_scrapper as scrap
 import src.pidr_calcul_diff_angle.ecrire_fichier as ecrire
 import src.pidr_calcul_diff_angle.afficher_courbes as afficher

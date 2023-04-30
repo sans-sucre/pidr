@@ -62,6 +62,7 @@ setup(
         "pyOpenSSL==23.0.0",
         "pyparsing==3.0.9",
         "PySocks==1.7.1",
+        "pytest==7.3.1",
         "python-dateutil==2.8.2",
         "pytz==2022.7.1",
         "queuelib==1.6.2",

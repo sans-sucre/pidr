@@ -13,11 +13,11 @@ file_ref = "Data/data_ref.csv"
 
 
 
-def donne_moyenne_decalage_azimut():
+def donne_moyenne_decalage_azimut(fichier1,fichier2):
 
     """"donne la moyenne des ecarts entre les valeurs mesurees et celles de reference, pour effectuer la correction """
 
-    Ecarts=donne_decalage_azimut()
+    Ecarts=donne_decalage_azimut(fichier1,fichier2)
 
     m=0
     for k in range(0,len(Ecarts)):
@@ -29,12 +29,12 @@ def donne_moyenne_decalage_azimut():
 
 
 
-def donne_moyenne_decalage_azimut_corrige(MAPE_max):
+def donne_moyenne_decalage_azimut_corrige(fichier1,fichier2,MAPE_max):
 
     """"donne la moyenne des ecarts entre les valeurs mesurees et celles de reference, pour effectuer la correction apres 
     suppression des valeurs aberrantes (utilisation de l'erreur absolue moyenne ) """
 
-    Ecarts=donne_decalage_azimut_corrige(MAPE_max)
+    Ecarts=donne_decalage_azimut_corrige(fichier1,fichier2,MAPE_max)
 
     m=0
     for k in range(0,len(Ecarts)):
@@ -48,12 +48,12 @@ def donne_moyenne_decalage_azimut_corrige(MAPE_max):
 
 
 
-def donne_decalage_azimut():
+def donne_decalage_azimut(fichier1,fichier2):
 
     """Retourne la liste des decalage pour les differentes valeurs de reference et mesuree, en enlevant les valeurs de nuit"""
 
-    (x,y)=donne_positions_mesurees()
-    (AzimutRef,HauteurRef)=donne_azimut_hauteur_theo(file_ref)
+    (x,y)=donne_positions_mesurees(fichier2)
+    (AzimutRef,HauteurRef)=donne_azimut_hauteur_theo(fichier1)
     (AzimutMes,HauteurMes)=donne_azimut_hauteur_mesurees(x,y)
     Decalage=[]
     ValeursPredites=[]
@@ -73,12 +73,12 @@ def donne_decalage_azimut():
 
 
 
-def donne_decalage_azimut_corrige(MAPE_max):
+def donne_decalage_azimut_corrige(fichier1,fichier2,MAPE_max):
 
     """Retourne la liste des decalage pour les differentes valeurs de reference et mesuree, en effectuant un test sur l'erreur absolue moyenne"""
 
-    (x,y)=donne_positions_mesurees()
-    (AzimutRef,HauteurRef)=donne_azimut_hauteur_theo(file_ref)
+    (x,y)=donne_positions_mesurees(fichier2)
+    (AzimutRef,HauteurRef)=donne_azimut_hauteur_theo(fichier1)
     (AzimutMes,HauteurMes)=donne_azimut_hauteur_mesurees(x,y)
     Decalage=[]
     ValeursPredites=[]
@@ -159,25 +159,15 @@ def donne_erreur_moyenne_absolue(ValeursObservees,ValeursPredites):
         return erreur/len(ValeursPredites)
 
 
-def donne_erreur_quadratique(ValeursObservees,ValeursPredites):
-    erreur=0
-    for k in range(0,len(ValeursObservees)):
-        erreur=erreur+((ValeursObservees[k]-ValeursPredites[k])**2)
-
-    if len(ValeursObservees)==0:
-        return 0
-    else:
-
-        return sqrt(erreur/len(ValeursPredites))
 
 
 
 
 
-def donne_positions_mesurees():
+def donne_positions_mesurees(fichier2):
     """donne la liste des coordonnées x et y a partir du fichier data_mes"""
 
-    f = open(file_mes,"r")
+    f = open(fichier2,"r")
     donnees = list(csv.reader(f, delimiter=","))
    
    
@@ -245,14 +235,14 @@ def donne_ecartype():
 
 
 
-def modelisation_correcte(seuil_modelisation):
+def modelisation_correcte(fichier1,fichier2,seuil_modelisation):
  
     """permet de tester si la modélisation et correcte en calculant l'erreur moyenne et verifiant si elle est inferieur à 0 pourcent .
     En entree il y a le fichier de donnees du web et le fichier de donnees de la modelisation que l'on veut comparer 
     """
 
-    azimut_web,hauteur_web=donne_azimut_hauteur_theo(file_ref)
-    azimut_mod,hauteur_mod=donne_azimut_hauteur_theo(file_mes)
+    azimut_web,hauteur_web=donne_azimut_hauteur_theo(fichier1)
+    azimut_mod,hauteur_mod=donne_azimut_hauteur_theo(fichier2)
 
     erreur_azimut=0
     erreur_hauteur=0
@@ -287,9 +277,9 @@ if __name__ == '__main__':
             file_mes = sys.argv[3]
             if len(sys.argv)>=6 and sys.argv[4]=="-niveau": 
                 seuil_modelisation=float(sys.argv[5])
-                print(modelisation_correcte(seuil_modelisation))
+                print(modelisation_correcte(file_ref,file_mes,seuil_modelisation))
             else:
-                print(modelisation_correcte(0.5))
+                print(modelisation_correcte(file_ref,file_mes,0.5))
 
 
         if sys.argv[1]=="-decalage":
@@ -299,13 +289,13 @@ if __name__ == '__main__':
             if len(sys.argv)>=6 and sys.argv[4]=="-correction":
                 MAPE_max=float(sys.argv[5])
             
-                print(donne_moyenne_decalage_azimut_corrige(MAPE_max))
+                print(donne_moyenne_decalage_azimut_corrige(file_ref,file_mes,MAPE_max))
 
             else:
                
-                print(donne_moyenne_decalage_azimut())
+                print(donne_moyenne_decalage_azimut(file_ref,file_mes))
 
-    else: print("Veuillez renseignez tous les paramètres. Tapez '-info' pour plus d'aide")
+    else: print("Veuillez renseigner tous les paramètres. Tapez '-info' pour plus d'aide")
 
 
 

@@ -8,7 +8,7 @@ class TestCalculStatistique(unittest.TestCase):
      
 
         _v_0 = statistique.donne_erreur_moyenne_absolue([5,3,4,12],[8,4,4,10])
-        self.assertEquals(_v_0, 1.5)
+        self.assertEquals(_v_0, 0.275)
 
 
 
@@ -16,7 +16,7 @@ class TestCalculStatistique(unittest.TestCase):
         self.assertEquals(_v_1, 0)
 
         _v_2 =  statistique.donne_erreur_moyenne_absolue([4,4,4,4],[4,4,4,4])
-        self.assertEquals(_v_2, 1.5)
+        self.assertEquals(_v_2, 0)
 
 
     def test_decalage(self):

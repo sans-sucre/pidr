@@ -26,6 +26,7 @@ setup(
         "constantly==15.1.0",
         "contourpy==1.0.7",
         "cryptography==39.0.1",
+        "chromedriver-binary==108.0.5359.71.0",
         "cssselect==1.2.0",
         "cycler==0.11.0",
         "docutils==0.19",

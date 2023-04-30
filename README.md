@@ -11,14 +11,19 @@ Développement d’un système de calibration automatisé hauteur-azimut en fonc
   * [Fonctionnalités](#fonctionnalités)
   * [Prérequis](#prérequis)
   * [Installation](#installation)
+    * [Configuration d'environnement virtuel](#configuration-denvironnement-virtuel)
+    * [Installation des packages nécessaires](#installation-des-packages-nécessaires)
   * [Usage/Examples](#usageexamples)
-      * [Instructions générales :](#instructions-générales--)
-      * [Récupération des données depuis SunEarthTools :](#récupération-des-données-depuis-sunearthtools--)
-      * [Visualisation des données :](#visualisation-des-données--)
-      * [Obtentiion du décalage :](#obtentiion-du-décalage--)
-  * [Pour plus d'information](#pour-plus-dinformation-)
+    * [Instructions générales](#instructions-générales-)
+    * [Instructions de chaque module](#instructions-de-chaque-module-)
+      * [Scrapper](#scrapper)
+      * [Courbe](#courbe)
+      * [Decalage](#decalage-)
+      * [Check](#check)
+    * [Help](#help)
+  * [Tests](#tests)
+  * [Pour plus d'information](#pour-plus-dinformations-)
 <!-- TOC -->
-
 
 ## Éditeurs
 
@@ -74,63 +79,121 @@ Pour installer les packages nécessaires pour exécuter notre projet, il vous fa
   ```bash
   pip install -e .
   ```
+ 
+**Note** : Pour quitter l'environnement virtuel, il faut utiliser 
+  ```bash
+  deactivate
+  ```
+    
+    
 
 ## Usage/Examples
 
-####  Instructions générales :
-Pour exécuter le projet dans votre terminal, vous pouvez exécuter : 
+###  Instructions générales 
+Pour exécuter le projet dans votre terminal depuis le répertoire racine du projet, vous pouvez exécuter : 
 ```bash
-python src/pidr_calcul_diff_angle -a $(ANNEE) -m $(MOIS) -j $(JOUR) 
+python src/pidr_calcul_diff_angle tout -a $(ANNEE) -m $(MOIS) -j $(JOUR) -n $(NIVEAU DE CORRECTION) -s $(SEUIL) 
 ```
-$(ANNEE)  $(MOIS) et $(JOUR) sont à remplacer par les valeurs correspondantes, ils signifient le jour (l'année, le mois et le jour) duquel les données théoriques (les valeurs d'azimut et de hauteur) à récupérer depuis [SunEarthTools]((https://www.sunearthtools.com/))   
-Les courbes : todo blabla
+$(ANNEE)  $(MOIS) $(JOUR) sont à remplacer par les valeurs correspondantes, ils signifient le jour (l'année, le mois et le jour) duquel les données théoriques (les valeurs d'azimut et de hauteur) à récupérer depuis [SunEarthTools]((https://www.sunearthtools.com/)). Par default, la date est 01/01/2023  
+$(NIVEAU DE CORRECTION) est le niveau de correction, par default, sa valeur est égal à 0.5. $(SEUIL) représente la valeur de seuil de modélisation, sa valeur par default est 0.8. 
 
+Après l'exécution de l'ensemble des programmes, vous pouvez avoir trois courbes apparues dans le répertoire Images. Il y a "azimutHauteurFichierMesures.png" qui représente les données mesurées, "azimutHauteurFichierRef.png" représente les données théoriques, qui sont récupérés depuis [SunEarthTools](https://www.sunearthtools.com/), et "parcoursSoleil.png" affiche le parcours du soleil.
 
+Les valeurs d'erreurs sur l'azimut et sur la hauteur seront affichées sur le terminal, ainsi le résultat de la modélisation et le décalage d'azimut.
 
-#### Obtention du décalage : 
-Pour exécuter et obtenir la valeur du décalage sans correction sur les valeurs aberrantes :
+### Instructions de chaque module 
+
+#### Scrapper
+Pour récupérer des données depuis [SunEarthTools](https://www.sunearthtools.com/), vous pouvez utiliser la ligne de commande suivante : 
+```bash
+python src/pidr_calcul_diff_angle scrapper -a $(ANNEE) -m $(MOIS) -j $(JOUR)  
+```
+_Exemple_
+
+Pour récupérer les données de 1/5/2023 : 
+```bash
+python src/pidr_calcul_diff_angle scrapper -a 2023 -m 5 -j 1  
+```
+
+#### Courbe
+Pour visualiser les données (afficher les courbes des données), les données à visualiser doivent être déposées dans le dossier Data sous format csv, le fichier doit contenir 288 couple de valeurs, format cf. Data/data_ref.csv.
+Vous pouvez utiliser la ligne de commande suivante pour exécuter : 
 
 ```bash
-python3 src/pidr_calcul_diff_angle/statistique.py nom_fichier_reference nom_fichier_mesuree 
+python src/pidr_calcul_diff_angle courbe -ref $(NOM_FICHIER_REFERENCE) -mes $(NOM_FICHIER_MESURE)
 ```
-nom_fichier_reference : son chemin à partir du parcours relatif du fichier pidr 
-nom_fichier_mesuree  : son chemin à partir du parcours relatif du fichier pidr 
+NOM_FICHIER_REFERENCE : son chemin à partir du parcours relatif du fichier pidr, par exemple, Data/data_ref 
 
+NOM_FICHIER_MESURE : son chemin à partir du parcours relatif du fichier pidr, par exemple, Data/data_web
 
-Pour exécuter et obtenir la valeur du décalage avec une correction :
+_Exemple_
 
 ```bash
-python3 src/pidr_calcul_diff_angle/statistique.py -decalage nom_fichier_reference  nom_fichier_mesuree -correction  ema
+python src/pidr_calcul_diff_angle courbe -ref Data/data_ref.csv  -mes Data/data_mes.csv 
 ```
 
-nom_fichier_reference  : son chemin à partir du parcours relatif du fichier pidr 
-nom_fichier_mesuree : son chemin à partir du parcours relatif du fichier pidr 
-ema: valeur de l'erreur moyenne absolue pour supprimer de points
 
+#### Decalage 
+Pour exécuter et obtenir la valeur du décalage sur les valeurs aberrantes :
 
-### Vérifier la concordance entre modélisation et valeurs réelles
-
-Pour exécuter et obtenir l'ecart moyen en fixant la valeur du seuil
 ```bash
-python3 python3 src/pidr_calcul_diff_angle/statistique.py -modelisation  nom_fichier_reference nom_fichier_mesuree  -niveau seuil
+python src/pidr_calcul_diff_angle decalage -ref $(NOM_FICHIER_REFERENCE) -mes $(NOM_FICHIER_MESURE) -s $(CORRECTION) 
 ```
-nom_fichier_reference : son chemin à partir du parcours relatif du fichier pidr 
-nom_fichier_mesuree : son chemin à partir du parcours relatif du fichier pidr 
-seuil: Le niveau seuil pour valider ou invalider la justesse de la modélisation
+NOM_FICHIER_REFERENCE : son chemin à partir du parcours relatif du fichier pidr, par exemple, Data/data_ref 
+
+NOM_FICHIER_MESURE : son chemin à partir du parcours relatif du fichier pidr, par exemple, Data/data_web
+
+CORRECTION : valeur d'erreur quadratique moyenne pour corriger les données, si elle n'est pas renseignée, il n'y a pas de correction
+
+
+_Exemple_
+
+```bash
+python src/pidr_calcul_diff_angle decalage -ref Data/data_ref.csv  -mes Data/data_mes.csv -s 0.8
+```
+
+#### Check
+Pour vérifier la concordance entre modélisation et valeurs réelles, vous pouvez exécuter avec la ligne de commande suivante et obtenir l'écart moyen : 
+
+```bash
+python src/pidr_calcul_diff_angle check -ref $(NOM_FICHIER_REFERENCE) -mes $(NOM_FICHIER_MESURE) -n $(SEUIL) 
+```
+NOM_FICHIER_REFERENCE : son chemin à partir du parcours relatif du fichier pidr, par exemple, Data/data_ref 
+
+NOM_FICHIER_MESURE : son chemin à partir du parcours relatif du fichier pidr, par exemple, Data/data_web
+
+SEUIL: Le niveau seuil pour valider ou invalider la justesse de la modélisation
+
+_Exemple_
+
+```bash
+python src/pidr_calcul_diff_angle check -ref Data/data_ref.csv  -mes Data/data_mes.csv -n 0.5
+```
 
 ### Help
 Pour avoir plus d'informations concernant aux lignes de commandes, vous pouvez utiliser help :
 ```bash
 python src/pidr_calcul_diff_angle --help
 ```
+Pour avoir plus d'informations concernant aux lignes de commandes de chaque module, vous pouvez utiliser help :
+```bash
+python src/pidr_calcul_diff_angle $(COMMANDE) --help
+```
+Les modules accessibles sont check, courbe, decalage, scrapper, tout, pour voir plus de détails de chaque commande, il suffit de remplacer $(COMMANDE) par le nom de chaque module.
 
+**Exemple**
+
+Pour savoir plus d'informations du module scrapper, vous pouvez utiliser la ligne de commande suivante : 
+```bash
+python src/pidr_calcul_diff_angle scrapper --help
+```
 ## Tests
 Des tests unitaires sont également à votre disposition, pour exécuter les tests, il faut tout simplement exécuter la ligne de commande suivante :
 ```bash
 pytest
 ```
 
-## Pour plus d'information 
+## Pour plus d'informations 
 
  - [Module Selenium](https://selenium-python.readthedocs.io/installation.html)
 
